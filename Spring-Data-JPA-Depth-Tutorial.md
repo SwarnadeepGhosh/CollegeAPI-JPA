@@ -400,4 +400,33 @@ public void getStudentByEmailAddressNativeNamedParam() {
 
 #### Transactional and @Modifying Annotation
 
-Used to Update / Delete the data.
+Used to Update / Insert / Delete the data.
+
+***StudentRepository.java*** - Updating Firstname by email id
+
+```java
+@Modifying // Make this method to modify value in database
+@Transactional // Transaction is created -> operations insert/update is done -> transaction committed
+@Query(
+    value="UPDATE tbl_student set first_name = :firstName where email_address = :emailId ",
+    nativeQuery = true
+)
+int updateStudentNameByEmailId(
+    @Param("firstName") String firstName,
+    @Param("emailId") String emailId
+);
+```
+
+***StudentRepositoryTest.java*** - Updating Firstname by email id
+
+```java
+@Test
+public void updateStudentNameByEmailId() {
+    studentRepository.updateStudentNameByEmailId("Updated Ayan","ayan@gmail.com");
+}
+```
+
+
+
+
+

@@ -88,5 +88,10 @@ class StudentRepositoryTest {
 	}
 	
 
+	// UPDATE AND MODIFICATION ------------------------------
+	@Test
+	public void updateStudentNameByEmailId() {
+	    studentRepository.updateStudentNameByEmailId("Updated Ayan","ayan@gmail.com");
+	}
 	
 }

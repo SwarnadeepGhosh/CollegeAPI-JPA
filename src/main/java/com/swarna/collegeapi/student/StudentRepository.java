@@ -44,6 +44,19 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
 	);
 	
 	
+	// UPDATE AND MODIFICATION ------------------------------
+	
+	@Modifying // Make this method to modify value in database
+	@Transactional // Transaction is created -> operations insert/update is done -> transaction committed
+	@Query(
+		    value="UPDATE tbl_student set first_name = :firstName where email_address = :emailId ",
+		    nativeQuery = true
+	)
+	int updateStudentNameByEmailId(
+			@Param("firstName") String firstName,
+			@Param("emailId") String emailId
+	);
+	
 
 	
 }
