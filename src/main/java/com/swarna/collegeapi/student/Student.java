@@ -21,10 +21,10 @@ import lombok.NoArgsConstructor;
 @Data // Lombok will generate Getter and Setters with this annotation
 @AllArgsConstructor //Lombok will generate @AllArgsConstructor
 @NoArgsConstructor //Lombok will generate @NoArgsConstructor
-@Builder
+@Builder //Used to test easily
 //Table name will be created with name tbl_student. This way we can rename tables and columns.
 @Table(
-		name="student",
+		name="tbl_student",
 		uniqueConstraints = @UniqueConstraint(name="emailid_unique" ,columnNames = "email_address")
 ) 
 public class Student {
@@ -45,11 +45,16 @@ public class Student {
 	private String firstName;
 	private String lastName;
 	
-	@Column(name = "email_address") // renaming auto generated email_id to email_address
+	@Column(name = "email_address", // renaming auto generated email_id to email_address
+			nullable = false // everytime we should be getting the value.
+	) 
 	private String emailId;
 	
 	@Embedded // Embedding guardain into here.
 	private Guardian guardain;
 	
+//	private String guardianName;
+//	private String guardianEmail;
+//	private String guardianMobile;
 	
 }

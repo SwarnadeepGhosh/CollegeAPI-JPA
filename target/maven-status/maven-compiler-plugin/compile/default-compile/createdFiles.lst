@@ -1,0 +1,6 @@
+com\swarna\collegeapi\student\StudentRepository.class
+com\swarna\collegeapi\student\Student.class
+com\swarna\collegeapi\CollegeApiJpaApplication.class
+com\swarna\collegeapi\guardian\Guardian.class
+com\swarna\collegeapi\guardian\Guardian$GuardianBuilder.class
+com\swarna\collegeapi\student\Student$StudentBuilder.class

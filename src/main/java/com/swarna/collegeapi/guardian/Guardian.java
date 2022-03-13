@@ -5,6 +5,7 @@ import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -12,6 +13,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor 
+@Builder
 @AttributeOverrides({  // This will take "name" column and insert in table with "guardain_name" column name
 	@AttributeOverride(
 			name = "name",

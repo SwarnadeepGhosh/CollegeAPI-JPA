@@ -118,7 +118,9 @@ public class Student {
 	private String firstName;
 	private String lastName;
 	
-	@Column(name = "email_address") // renaming auto generated email_id to email_address
+	@Column(name = "email_address", // renaming auto generated email_id to email_address
+			nullable = false // everytime we should be getting the value.
+	)
 	private String emailId;
 	
 	private String guardianName;
@@ -137,6 +139,48 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
 }
 //JpaRepository ultimately extends CrudRepository
 ```
+
+
+
+#### Testing Student Entity
+
+Right click on ***StudentRepository.java*** -> New -> JUnit Test Case -> ***StudentRepositoryTest.java***
+
+```java
+...
+@SpringBootTest // Used for testing. This will NOT flush the data when test completed
+//@DataJpaTest - Used to test repository layer. This will test and flush the data when test completed
+class StudentRepositoryTest {
+
+	@Autowired
+	private StudentRepository studentRepository ;
+
+	@Test
+	public void saveStudent() {
+		Student student = Student.builder()
+				.emailId("test@gmail.com")
+				.firstName("Vito")
+				.lastName("COC")
+				.guardianName("SampleGuardian")
+				.guardianEmail("g@gmail.com")
+				.guardianMobile("9479474843")
+				.build();
+		studentRepository.save(student);
+	}
+	
+	@Test
+	public void printAllStudent() {
+		List<Student> studentList = studentRepository.findAll();
+		System.out.println("Students List : " +studentList);
+	}	
+}
+```
+
+So now right click on ***StudentRepositoryTest.java*** -> Run as Junit Test
+
+Now we will make the student class better by group guardian details in the same student table only.
+
+
 
 
 
@@ -187,3 +231,173 @@ public class Student {
 
 #### Testing with Database entry
 
+Right click on ***StudentRepository.java*** -> New -> JUnit Test Case -> ***StudentRepositoryTest.java***
+
+```java
+...
+@SpringBootTest // Used for testing. This will NOT flush the data when test completed
+//@DataJpaTest - Used to test repository layer. This will test and flush the data when test completed
+class StudentRepositoryTest {
+
+	@Autowired
+	private StudentRepository studentRepository ;
+...
+    @Test
+	public void saveStudentWithGuardian() {
+		Guardian guardian = Guardian.builder()
+				.name("ayanGuardian")
+				.email("ayanGuardian@gmail.com")
+				.mobile("9373736373")
+				.build();
+		
+		Student student = Student.builder()
+				.firstName("Ayan")
+				.lastName("Desai")
+				.emailId("ayan@gmail.com")
+				.guardain(guardian)
+				.build();
+		studentRepository.save(student);
+	}
+}
+```
+
+So now right click on ***StudentRepositoryTest.java*** -> Run as Junit Test
+
+Now we will make the student class better by group guardian details in the same student table only.
+
+
+
+### JPA Repository methods and Queries
+
+#### [All essential methods for JPA](https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#jpa.query-methods)
+
+***StudentRepository.java*** - some auto implemented methods example
+
+```java
+public List<Student> findByFirstName(String firstName);
+public List<Student> findByFirstNameContaining(String name);
+public List<Student> findByLastNameNotNull();
+// No need to implement, just declaration. JPA will do implementation for us.
+```
+
+***StudentRepositoryTest.java***- a auto implemented method test
+
+```java
+@Test
+public void printStudentByFirstName() {
+    List<Student> students = studentRepository.findByFirstName("Ayan");
+    System.out.println("Student with Name Ayan : " +students);
+}
+```
+
+
+
+
+
+#### @Query - JPQL Query
+
+JPQL is slightly different from normal SQL.
+
+***StudentRepository.java*** - Getting a student data by email id
+
+```java
+//JPQL - based on Class name, not table name (eg- Student), ?1 = first argument
+@Query("SELECT s from Student s where s.emailId = ?1")
+Student getStudentByEmailAddress(String emailId);
+
+// To select specific column value like firstName, we should use SELECT s.firstName
+```
+
+***StudentRepositoryTest.java*** - Getting a student data by email id
+
+```java
+@Test
+public void getStudentByEmailAddress() {
+    Student student = studentRepository.getStudentByEmailAddress("ayan@gmail.com");
+    System.out.println("Student : " +student);
+}
+```
+
+
+
+***StudentRepository.java*** - Getting only Firstname by filtering email id
+
+```java
+//JPQL -To select specific column value like firstName, we should use SELECT s.firstName 
+@Query("SELECT s.firstName from Student s where s.emailId = ?1")
+String getStudentFirstNameByEmailId(String emailId);
+```
+
+***StudentRepositoryTest.java***- Getting only Firstname by filtering email id
+
+```java
+@Test
+public void getStudentFirstNameByEmailId() {
+    String firstName= studentRepository.getStudentFirstNameByEmailId("chayan@gmail.com");
+    System.out.println("firstName : " +firstName);
+}
+```
+
+
+
+#### Native SQL @Query in JPA
+
+JPA also supports native SQL queries , by which we can write same sql queries in jpa as what we do in any SQL language.
+
+***StudentRepository.java*** - Getting a student data by email id
+
+```java
+//Native Query - using original table name, ?1 = first argument
+@Query(
+    value="SELECT * from tbl_student s where s.email_address = ?1",
+    nativeQuery = true
+)
+Student getStudentByEmailAddressNative(String emailId);
+```
+
+***StudentRepositoryTest.java*** - Getting a student data by email id
+
+```java
+@Test
+public void getStudentByEmailAddressNative() {
+    Student student = studentRepository.getStudentByEmailAddressNative("ayan@gmail.com");
+    System.out.println("Student : " +student);
+}
+```
+
+
+
+#### Query Named @Param
+
+Everytime `?1` is not the best approach. So we will now use named parameters.
+
+***StudentRepository.java*** - Getting a student data by email id
+
+```java
+//Named Param - :<parameter_name>, which needs to declared by @Param("parameter_name") tag for each parameters
+@Query(
+    value="SELECT * from tbl_student s where s.email_address = :emailId",
+    nativeQuery = true
+)
+Student getStudentByEmailAddressNativeNamedParam(
+    @Param("emailId") String emailId
+);
+```
+
+***StudentRepositoryTest.java*** - Getting a student data by email id
+
+```java
+@Test
+public void getStudentByEmailAddressNativeNamedParam() {
+    Student student = studentRepository.getStudentByEmailAddressNativeNamedParam("ayan@gmail.com");
+    System.out.println("Student : " +student);
+}
+```
+
+
+
+
+
+#### Transactional and @Modifying Annotation
+
+Used to Update / Delete the data.
