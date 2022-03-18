@@ -1,4 +1,4 @@
-# Spring Data JPA - Depth Tutorial
+# Spring Data JPA - Depth - CollegeAPI
 
 
 
@@ -398,7 +398,7 @@ public void getStudentByEmailAddressNativeNamedParam() {
 
 
 
-#### Transactional and @Modifying Annotation
+#### Transactional and @Modifying - UPDATE
 
 Used to Update / Insert / Delete the data.
 
@@ -429,4 +429,122 @@ public void updateStudentNameByEmailId() {
 
 
 
+
+### Relationships in JPA
+
+#### One to One Relationship
+
+![JPA_inDepth-ER-DIagram](E:\My-Projects\CollegeAPI-JPA\JPA_inDepth-ER-DIagram.jpg)
+
+- Course and CourseMaterial is One to One Relationship.
+- For one course, there will be one Course Material and vice versa.
+- First Created Couuse and CourseMaterial entity.
+
+***Course.java***
+
+```java
+...
+    @Table( name="tbl_course" ) 
+    public class Course {
+        @Id
+        @SequenceGenerator(
+            name = "course_sequence",
+            sequenceName = "course_sequence",
+            allocationSize = 1
+        )
+        @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "course_sequence"
+        )
+        private Long courseId;
+        private String title;
+        private Integer credit;	
+    }
+```
+
+***CourseMaterial.java***
+
+```java
+...
+public class CourseMaterial {
+    @Id
+    @SequenceGenerator(
+        name = "course_material_sequence",
+        sequenceName = "course_material_sequence",
+        allocationSize = 1
+    )
+    @GeneratedValue(
+        strategy = GenerationType.SEQUENCE,
+        generator = "course_material_sequence"
+    )
+    private Long courseMaterialId;
+    private String url;
+	
+  @OneToOne // courseMaterial cant exist without course and for one course, there will be one Course Material and vice versa.
+  
+  @JoinColumn( // foreign key
+	name = "course_id", //It will save as course_material table in DB with this name
+	referencedColumnName = "courseId" // This is the Column name of course table
+  )
+	private Course course;	
+}
+```
+
+
+
+Created two Interface CourseRepository.java and CourseMaterialRepository.java
+
+```java
+@Repository
+public interface CourseRepository extends JpaRepository<Course, Long>{ }
+
+@Repository
+public interface CourseMaterialRepository extends JpaRepository<CourseMaterial, Long>{}
+```
+
+Now we will testing CourseMaterialRepositoryTest.java
+
+```java
+...
+@SpringBootTest // Used for testing. This will NOT flush the data when test completed
+class CourseMaterialRepositoryTest {
+	@Autowired
+	private CourseMaterialRepository courseMaterialRepository;
+	
+    @Test
+	public void saveCourseMaterial () {
+		
+		Course course = Course.builder()
+				.credit(6)
+				.title("Java Course Title")
+				.build();
+		
+		CourseMaterial courseMaterial = CourseMaterial.builder()
+				.course(course)
+				.url("https://www.google.com/")
+				.build();
+		
+		courseMaterialRepository.save(courseMaterial);
+	}
+}
+/*
+On running => it will throw error as below
+Error => Object references an unsaved transient instance
+Reason => we are trying to create CourseMaterial object , but referenced course is not in database.
+Solution => CASCADING
+```
+
+
+
+#### Cascading
+
+***CourseMaterial.java***
+
+```java
+@OneToOne( cascade = CascadeType.ALL) // Cascading 
+@JoinColumn( name = "course_id", referencedColumnName = "courseId" )
+private Course course;
+```
+
+This will cascade and save course first in database and then save course material, so that it will not throw error.
 
