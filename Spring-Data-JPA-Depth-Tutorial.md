@@ -432,13 +432,13 @@ public void updateStudentNameByEmailId() {
 
 ### Relationships in JPA
 
-#### One to One Relationship
+#### @OneToOne Relationship
 
 ![JPA_inDepth-ER-DIagram](E:\My-Projects\CollegeAPI-JPA\JPA_inDepth-ER-DIagram.jpg)
 
 - Course and CourseMaterial is One to One Relationship.
 - For one course, there will be one Course Material and vice versa.
-- First Created Couuse and CourseMaterial entity.
+- First Created Course and CourseMaterial entity.
 
 ***Course.java***
 
@@ -547,4 +547,119 @@ private Course course;
 ```
 
 This will cascade and save course first in database and then save course material, so that it will not throw error.
+
+
+
+#### Fetch Types- Eager, Lazy
+
+A JPA association can be fetched lazily or eagerly. The fetching strategy is controlled via the `fetch` attribute of the [`@OneToMany`](https://vladmihalcea.com/the-best-way-to-map-a-onetomany-association-with-jpa-and-hibernate/), [`@OneToOne`](https://vladmihalcea.com/the-best-way-to-map-a-onetoone-relationship-with-jpa-and-hibernate/), [`@ManyToOne`](https://vladmihalcea.com/manytoone-jpa-hibernate/), or [`@ManyToMany`](https://vladmihalcea.com/the-best-way-to-use-the-manytomany-annotation-with-jpa-and-hibernate/). Types to fetch data from DB
+
+- Eager Fetching
+- Lazy Fetching
+
+If I fetch CourseMaterial, do I need to fetch Course also, if yes, then I should use **Eager Fetching**, else in **Lazy Fetching**, it will not fetch Course , until I say so .
+
+
+
+Here I am demonstrating LAZY Fetching.
+
+***CourseMaterial.java***
+
+```java
+@OneToOne( 
+    cascade = CascadeType.ALL,
+    fetch = FetchType.LAZY
+) 
+@JoinColumn( name = "course_id", referencedColumnName = "courseId" )
+private Course course;
+```
+
+***CourseMaterialRepositoryTest.java***
+
+Printing all course materials.
+
+```java
+@Test
+public void printAllCourseMaterials() {
+    List<CourseMaterial> courseMaterials = courseMaterialRepository.findAll();
+
+    System.out.println("Course Materials = " + courseMaterials);
+}
+```
+
+
+
+But it is Throwing error 
+
+```
+org.hibernate.LazyInitializationException: could not initialize proxy [com.swarna.collegeapi.course.Course#1]
+```
+
+In CourseMaterial.java, there is a toString() method which is calling for course, I have to remove that for now. 
+
+***CourseMaterial.java***
+
+```java
+...
+@ToString(exclude = "course") // excluding course toString method
+public class CourseMaterial {
+```
+
+Now our test will successful.
+
+Test Output :
+
+```
+Courses = [Course(courseId=1, title=Java Course Title, credit=6)]
+```
+
+
+
+
+
+#### Uni and Bi-directional Relationship
+
+We have created **unidirectional** mapping from CourseMaterial using JOIN, and we fetched Course from CourseMaterial.
+
+Now we will create **bidirectional** mapping, so that we can fetch courseMaterial from Course also.
+
+***Course.java***
+
+```java
+public class Course {
+	...
+	@OneToOne(mappedBy = "course")
+	private CourseMaterial courseMaterial;
+}
+```
+
+
+
+***CourseTest.java***
+
+```java
+@SpringBootTest // Used for testing. This will NOT flush the data when test completed
+class CourseTest {
+	@Autowired
+	private CourseRepository courseRepository;
+
+	@Test
+	public void printAllCourses() {
+		List<Course> courses = courseRepository.findAll();	
+		System.out.println("Courses = " + courses);
+	}
+}
+```
+
+Output : 
+
+```
+Courses = [Course(courseId=1, title=Java Course Title, credit=6, courseMaterial=CourseMaterial(courseMaterialId=1, url=https://www.google.com))]
+```
+
+
+
+
+
+#### @OneToMany Relationship
 

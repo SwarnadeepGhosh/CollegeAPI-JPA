@@ -2,6 +2,7 @@ package com.swarna.collegeapi.courseMaterial;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -15,12 +16,14 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@ToString(exclude = "course")
 public class CourseMaterial {
 
 	@Id
@@ -37,9 +40,12 @@ public class CourseMaterial {
 	private String url;
 	
 	// courseMaterial cant exist without course and for one course, there will be one Course Material and vice versa.
-	@OneToOne( cascade = CascadeType.ALL) 
+	@OneToOne( 
+			cascade = CascadeType.ALL,
+			fetch = FetchType.LAZY
+	) 
 	@JoinColumn( // foreign key
-			name = "course_id", // This name, it will save in database in course_material table.
+			name = "course_id", // it will save with this name in course_material table.
 			referencedColumnName = "courseId" // This is the Column name of course table
 	)
 	private Course course;
