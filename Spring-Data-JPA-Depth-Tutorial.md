@@ -635,7 +635,7 @@ public class Course {
 
 
 
-***CourseTest.java***
+***CourseRepositoryTest.java***
 
 ```java
 @SpringBootTest // Used for testing. This will NOT flush the data when test completed
@@ -662,4 +662,143 @@ Courses = [Course(courseId=1, title=Java Course Title, credit=6, courseMaterial=
 
 
 #### @OneToMany Relationship
+
+- One Teacher can taught many Courses  (OneToMany Relationship)
+- Many courses can be taught by one teacher (ManyToOne Relationship)
+
+Created ***Teacher.java***
+
+```java
+...
+public class Teacher {
+
+	@Id
+	@SequenceGenerator(
+			name = "teacher_sequence",
+			sequenceName = "teacher_sequence",
+			allocationSize = 1
+	)
+	@GeneratedValue(
+			strategy = GenerationType.SEQUENCE,
+			generator = "teacher_sequence"
+	)
+	private Long teacherId;
+	private String firstName;
+	private String lastName;
+	
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name = "teacher_id", referencedColumnName = "teacherId")
+    // this will create a foreign key in course table with name teacher_id
+	private List<Course> courses;
+}
+```
+
+Created ***TeacherRepository.java***
+
+```java
+@Repository
+public interface TeacherRepository extends JpaRepository<Teacher, Long>{ }
+```
+
+Created ***TeacherRepositoryTest.java***
+
+Here we are adding Teacher after adding one course. But we have not added CourseMaterial for the new course. Now this is allowed. But we will disallow this in future.
+
+```java
+@SpringBootTest
+class TeacherRepositoryTest {
+	
+	@Autowired
+	private TeacherRepository teacherRepository;
+
+	@Testd
+	public void saveTeacher() {
+		Course courseDba = Course.builder().title("DBA").credit(4).build();
+		Course courseJava = Course.builder().title("JAVA").credit(5).build();
+		
+		Teacher teacher = Teacher.builder()
+				.firstName("Ricky")
+				.lastName("Ghosh")
+				.courses(List.of(courseDba,courseJava))
+				.build();
+		
+		teacherRepository.save(teacher);
+	}
+}
+```
+
+
+
+Now we are adding **optional=false** in CourseMaterial, so that a new CourseMaterial should be added for a new course.
+
+***CourseMaterial.java***
+
+```java
+@OneToOne( 
+    cascade = CascadeType.ALL,
+    fetch = FetchType.LAZY,
+    optional = false // This will disallow new Course addition without new Course Material
+) 
+@JoinColumn( name = "course_id", referencedColumnName = "courseId" )
+private Course course;
+```
+
+
+
+So if we try to save a new course material without course , it will throw error.
+
+
+
+
+
+#### @ManyToOne Relationship
+
+- One Teacher can taught many Courses  (OneToMany Relationship)
+- Many courses can be taught by one teacher (ManyToOne Relationship)
+- We should use @ManyToOne rather than @OneToMany whenever possible. JPA also prefers @ManyToOne
+
+So first we are commenting @OnetToMany from Teacher entity.
+
+***Teacher.java***
+
+```java
+/*@OneToMany(cascade = CascadeType.ALL)
+@JoinColumn(name = "teacher_id", referencedColumnName = "teacherId")
+private List<Course> courses;*/
+```
+
+***Course.java***
+
+```java
+@ManyToOne(cascade = CascadeType.ALL)
+@JoinColumn(name = "teacher_id", referencedColumnName = "teacherId")
+private Teacher teacher;
+```
+
+***CourseRepositoryTest.java***
+
+```java
+...
+    @Test
+    public void saveCourseWithTeacher() {
+    Teacher teacher = Teacher.builder()
+        .firstName("Amit")
+        .lastName("Tiwari")
+        .build();
+
+    Course course = Course.builder()
+        .title("Python")
+        .credit(5)
+        .teacher(teacher)
+        .build();
+
+    courseRepository.save(course);
+	}	
+```
+
+
+
+
+
+#### Paging and Sorting
 
