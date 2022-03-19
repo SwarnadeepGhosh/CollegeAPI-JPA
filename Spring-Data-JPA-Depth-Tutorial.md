@@ -68,9 +68,9 @@ spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.PostgreSQLDialec
 
 
 
-Database ER Diagram
+#### Database ER Diagram
 
-![JPA_inDepth-ER-DIagram](E:\My-Projects\CollegeAPI-JPA\JPA_inDepth-ER-DIagram.jpg)
+![CollegeAPI-JPA-ER-Diagram](CollegeAPI-JPA-ER-Diagram1.png)
 
 
 
@@ -434,7 +434,7 @@ public void updateStudentNameByEmailId() {
 
 #### @OneToOne Relationship
 
-![JPA_inDepth-ER-DIagram](E:\My-Projects\CollegeAPI-JPA\JPA_inDepth-ER-DIagram.jpg)
+![CollegeAPI-JPA-ER-Diagram](CollegeAPI-JPA-ER-Diagram1.png)
 
 - Course and CourseMaterial is One to One Relationship.
 - For one course, there will be one Course Material and vice versa.
@@ -592,7 +592,7 @@ public void printAllCourseMaterials() {
 But it is Throwing error 
 
 ```
-org.hibernate.LazyInitializationException: could not initialize proxy [com.swarna.collegeapi.course.Course#1]
+org.hibernate.LazyInitializationException: could not initialize proxy [com.swarna.collegeapi.course.Course#1
 ```
 
 In CourseMaterial.java, there is a toString() method which is calling for course, I have to remove that for now. 
@@ -801,4 +801,104 @@ private Teacher teacher;
 
 
 #### Paging and Sorting
+
+JpaRepository extends PagingAndSortingRepository, which is having imp methods fot Pagination and Sorting of data.
+
+```java
+@Test
+public void findAllPagination() {
+    Pageable firstPageWithThreeRecords = PageRequest.of(0, 3);
+    Pageable secondPageWithTwoRecords = PageRequest.of(1, 2);
+
+    List<Course> courses = courseRepository.findAll(firstPageWithThreeRecords).getContent();
+    Long totalElements = courseRepository.findAll(firstPageWithThreeRecords).getTotalElements();
+    int totalPages = courseRepository.findAll(firstPageWithThreeRecords).getTotalPages();
+
+    System.out.println("totalElements = " + totalElements);
+    System.out.println("totalPages = " + totalPages);
+    System.out.println("Courses = " + courses);
+}
+
+@Test
+public void findAllSorting() {
+    Pageable sortByTitle = PageRequest.of(0, 2, Sort.by("title"));
+    Pageable sortByCreditDesc = PageRequest.of(0, 2, Sort.by("credit").descending());
+    Pageable sortByTitleAndCredit = PageRequest.of(0, 2, Sort.by("title")
+                                                   .descending().and(Sort.by("credit")));
+
+    List<Course> courses = courseRepository.findAll(sortByTitle).getContent();
+    System.out.println("Courses = " + courses);
+}
+```
+
+
+
+
+
+#### @ManyToMany Relationship
+
+- Many Student can opt for many courses available.
+- We have Student and Course Entity. Here we need to have one another table which will hold the relationships between Student and Course.
+- So New table will be introduced.
+- Have to mention property(courseId) of same class(Couse) in **joinColumns** 
+- Have to mention property(studentId) of the newly declared class(student) in **inverseJoinColumns**
+
+***Course.java***
+
+```java
+@ManyToMany(cascade = CascadeType.ALL)
+@JoinTable(
+    name = "student_course_map",
+    joinColumns = @JoinColumn( // for students, what courses they have
+        name = "course_id",
+        referencedColumnName = "courseId"
+    ),
+    inverseJoinColumns = @JoinColumn( // for courses, what should be the students
+        name = "student_id",
+        referencedColumnName = "studentId"
+    )
+)
+private List<Student> students;
+
+public void addStudents(Student student) {
+    if(students == null) students = new ArrayList<>();
+
+    students.add(student);
+}
+```
+
+***CourseRepositoryTest.java***
+
+```java
+@Test
+public void saveCourseWithStudentAndTeacher() {
+    Teacher teacher = Teacher.builder()
+        .firstName("Vartul")
+        .lastName("Prasad")
+        .build();
+
+    Guardian guardian = Guardian.builder()
+        .name("Prakash")
+        .email("prakash@gmail.com")
+        .mobile("123121211")
+        .build();
+
+    Student student = Student.builder()
+        .firstName("Akash")
+        .lastName("Bhowmik")
+        .emailId("akash@gmail.com")
+        .guardain(guardian)
+        .build();
+
+    Course course = Course.builder()
+        .title("DSA")
+        .credit(7)
+        .teacher(teacher)
+        .build();
+
+    course.addStudents(student);
+
+    courseRepository.save(course);
+}
+```
 
