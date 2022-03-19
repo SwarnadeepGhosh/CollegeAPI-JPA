@@ -20,7 +20,7 @@ class CourseRepositoryTest {
 	@Autowired
 	private CourseRepository courseRepository;
 
-	/*
+	
 	@Test
 	public void printAllCourses() {
 		List<Course> courses = courseRepository.findAll();
@@ -68,8 +68,8 @@ class CourseRepositoryTest {
 		List<Course> courses = courseRepository.findAll(sortByTitle).getContent();
 		System.out.println("Courses = " + courses);
 	}
-	*/
 	
+	/*
 	@Test
 	public void saveCourseWithStudentAndTeacher() {
 		Teacher teacher = Teacher.builder()
@@ -100,5 +100,5 @@ class CourseRepositoryTest {
 		
 		courseRepository.save(course);
 	}
-	
+	*/
 }

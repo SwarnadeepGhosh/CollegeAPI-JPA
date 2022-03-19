@@ -1,15 +1,31 @@
 # Spring Data JPA - Depth - CollegeAPI
 
+## Table of contents
+
+- [Setup and Prerequisite](#setup-and-prerequisite)
+    - [Database ER Diagram](#database-er-diagram)
+  - [Student Entity](#student-entity)
+    - [Different JPA Annotations](#different-jpa-annotations)
+    - [Testing Student Entity](#testing-student-entity)
+  - [Guardian Entity](#guardian-entity)
+    - [Testing with Database entry](#testing-with-database-entry)
+  - [JPA Repository methods and Queries](#jpa-repository-methods-and-queries)
+    - [All essential methods for JPA](#all-essential-methods-for-jpahttpsdocsspringiospring-datajpadocscurrentreferencehtmljpaquery-methods)
+    - [@Query - JPQL Query](#query---jpql-query)
+    - [Native SQL @Query in JPA](#native-sql-query-in-jpa)
+    - [Query Named @Param](#query-named-param)
+    - [Transactional and @Modifying - UPDATE](#transactional-and-modifying---update)
+  - [Relationships in JPA](#relationships-in-jpa)
+    - [@OneToOne Relationship](#onetoone-relationship)
+    - [Cascading](#cascading)
+    - [Fetch Types- Eager, Lazy](#fetch-types--eager-lazy)
+    - [Uni and Bi-directional Relationship](#uni-and-bi-directional-relationship)
+    - [@OneToMany Relationship](#onetomany-relationship)
+    - [@ManyToOne Relationship](#manytoone-relationship)
+    - [Paging and Sorting](#paging-and-sorting)
+    - [@ManyToMany Relationship](#manytomany-relationship)
 
 
-### Table of contents
-
-- [Spring Data JPA - Depth Tutorial](#spring-data-jpa---depth-tutorial)
-  - [Setup and Prerequisite](#setup-and-prerequisite)
-    - [Student Entity](#student-entity)
-      - [Different JPA Annotations](#different-jpa-annotations)
-    - [Guardian Entity](#guardian-entity)
-      - [Testing with Database entry](#testing-with-database-entry)
 
 
 
