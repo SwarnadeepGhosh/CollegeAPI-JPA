@@ -1,4 +1,4 @@
-# Spring Data JPA - Depth - CollegeAPI
+# CollegeAPI- SpringDataJPA in Depth
 
 ## Table of contents
 
@@ -90,7 +90,7 @@ spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.PostgreSQLDialec
 
 
 
-### Student Entity
+## Student Entity
 
 #### Different JPA Annotations
 
@@ -200,7 +200,7 @@ Now we will make the student class better by group guardian details in the same 
 
 
 
-### Guardian Entity
+## Guardian Entity
 
 We have initialized Guardian details like guardianName and others in Student.java but ideally it should be in a seperate class. So creating Guardian.java and changing Student.java
 
@@ -283,7 +283,7 @@ Now we will make the student class better by group guardian details in the same 
 
 
 
-### JPA Repository methods and Queries
+## JPA Repository methods and Queries
 
 #### [All essential methods for JPA](https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#jpa.query-methods)
 
@@ -310,7 +310,7 @@ public void printStudentByFirstName() {
 
 
 
-#### @Query - JPQL Query
+### @Query - JPQL Query
 
 JPQL is slightly different from normal SQL.
 
@@ -356,7 +356,7 @@ public void getStudentFirstNameByEmailId() {
 
 
 
-#### Native SQL @Query in JPA
+### Native SQL @Query in JPA
 
 JPA also supports native SQL queries , by which we can write same sql queries in jpa as what we do in any SQL language.
 
@@ -383,7 +383,7 @@ public void getStudentByEmailAddressNative() {
 
 
 
-#### Query Named @Param
+### Query Named @Param
 
 Everytime `?1` is not the best approach. So we will now use named parameters.
 
@@ -414,7 +414,7 @@ public void getStudentByEmailAddressNativeNamedParam() {
 
 
 
-#### Transactional and @Modifying - UPDATE
+### Transactional and @Modifying - UPDATE
 
 Used to Update / Insert / Delete the data.
 
@@ -446,9 +446,9 @@ public void updateStudentNameByEmailId() {
 
 
 
-### Relationships in JPA
+## Relationships in JPA
 
-#### @OneToOne Relationship
+### @OneToOne
 
 ![CollegeAPI-JPA-ER-Diagram](CollegeAPI-JPA-ER-Diagram1.png)
 
@@ -552,7 +552,7 @@ Solution => CASCADING
 
 
 
-#### Cascading
+### CascadeType
 
 ***CourseMaterial.java***
 
@@ -566,7 +566,7 @@ This will cascade and save course first in database and then save course materia
 
 
 
-#### Fetch Types- Eager, Lazy
+### FetchType - Eager, Lazy
 
 A JPA association can be fetched lazily or eagerly. The fetching strategy is controlled via the `fetch` attribute of the [`@OneToMany`](https://vladmihalcea.com/the-best-way-to-map-a-onetomany-association-with-jpa-and-hibernate/), [`@OneToOne`](https://vladmihalcea.com/the-best-way-to-map-a-onetoone-relationship-with-jpa-and-hibernate/), [`@ManyToOne`](https://vladmihalcea.com/manytoone-jpa-hibernate/), or [`@ManyToMany`](https://vladmihalcea.com/the-best-way-to-use-the-manytomany-annotation-with-jpa-and-hibernate/). Types to fetch data from DB
 
@@ -633,7 +633,7 @@ Courses = [Course(courseId=1, title=Java Course Title, credit=6)]
 
 
 
-#### Uni and Bi-directional Relationship
+### Uni & Bi-directional Relationship
 
 We have created **unidirectional** mapping from CourseMaterial using JOIN, and we fetched Course from CourseMaterial.
 
@@ -677,7 +677,7 @@ Courses = [Course(courseId=1, title=Java Course Title, credit=6, courseMaterial=
 
 
 
-#### @OneToMany Relationship
+### @OneToMany
 
 - One Teacher can taught many Courses  (OneToMany Relationship)
 - Many courses can be taught by one teacher (ManyToOne Relationship)
@@ -767,7 +767,7 @@ So if we try to save a new course material without course , it will throw error.
 
 
 
-#### @ManyToOne Relationship
+### @ManyToOne
 
 - One Teacher can taught many Courses  (OneToMany Relationship)
 - Many courses can be taught by one teacher (ManyToOne Relationship)
@@ -816,7 +816,7 @@ private Teacher teacher;
 
 
 
-#### Paging and Sorting
+### Paging and Sorting
 
 JpaRepository extends PagingAndSortingRepository, which is having imp methods fot Pagination and Sorting of data.
 
@@ -851,7 +851,7 @@ public void findAllSorting() {
 
 
 
-#### @ManyToMany Relationship
+### @ManyToMany
 
 - Many Student can opt for many courses available.
 - We have Student and Course Entity. Here we need to have one another table which will hold the relationships between Student and Course.

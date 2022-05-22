@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="generator" content="pandoc">
+    <meta name="description" content="">
+
+    <title>SpringDataJPA-Depth-Tutorial</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <link href="https://maxcdn.bootstrapcdn.com/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="https://mushiyo.github.io/pandoc-toc-sidebar/css/dashboard.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <style type="text/css">code{white-space: pre;}</style>
+    <style type="text/css">.sidebar ul{padding-left: 10px;}</style>
+    <style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+    </style>
+  </head>
+
+  <body>
+
+    <div class="container-fluid">
+      <div class="row">
+        <div id="sidebar" class="col-sm-3 col-md-2 sidebar">
+          <!--<ul class="nav nav-sidebar">
+            <li class="active"><a href="#">Overview <span class="sr-only">(current)</span></a></li>
+          </ul>-->
+          <ul>
+          <li><a href="#spring-data-jpa---depth---collegeapi"
+          id="toc-spring-data-jpa---depth---collegeapi">Spring Data JPA
+          - Depth - CollegeAPI</a>
+          <ul>
+          <li><a href="#table-of-contents"
+          id="toc-table-of-contents">Table of contents</a></li>
+          <li><a href="#setup-and-prerequisite"
+          id="toc-setup-and-prerequisite">Setup and
+          Prerequisite</a></li>
+          <li><a href="#student-entity" id="toc-student-entity">Student
+          Entity</a></li>
+          <li><a href="#guardian-entity"
+          id="toc-guardian-entity">Guardian Entity</a></li>
+          <li><a href="#jpa-repository-methods-and-queries"
+          id="toc-jpa-repository-methods-and-queries">JPA Repository
+          methods and Queries</a>
+          <ul>
+          <li><a href="#query---jpql-query"
+          id="toc-query---jpql-query"><span class="citation"
+          data-cites="Query">@Query</span> - JPQL Query</a></li>
+          <li><a href="#native-sql-query-in-jpa"
+          id="toc-native-sql-query-in-jpa">Native SQL <span
+          class="citation" data-cites="Query">@Query</span> in
+          JPA</a></li>
+          <li><a href="#query-named-param"
+          id="toc-query-named-param">Query Named <span class="citation"
+          data-cites="Param">@Param</span></a></li>
+          <li><a href="#transactional-and-modifying---update"
+          id="toc-transactional-and-modifying---update">Transactional
+          and <span class="citation"
+          data-cites="Modifying">@Modifying</span> - UPDATE</a></li>
+          </ul></li>
+          <li><a href="#relationships-in-jpa"
+          id="toc-relationships-in-jpa">Relationships in JPA</a>
+          <ul>
+          <li><a href="#onetoone" id="toc-onetoone"><span
+          class="citation"
+          data-cites="OneToOne">@OneToOne</span></a></li>
+          <li><a href="#cascadetype"
+          id="toc-cascadetype">CascadeType</a></li>
+          <li><a href="#fetchtype---eager-lazy"
+          id="toc-fetchtype---eager-lazy">FetchType - Eager,
+          Lazy</a></li>
+          <li><a href="#uni-bi-directional-relationship"
+          id="toc-uni-bi-directional-relationship">Uni &amp;
+          Bi-directional Relationship</a></li>
+          <li><a href="#onetomany" id="toc-onetomany"><span
+          class="citation"
+          data-cites="OneToMany">@OneToMany</span></a></li>
+          <li><a href="#manytoone" id="toc-manytoone"><span
+          class="citation"
+          data-cites="ManyToOne">@ManyToOne</span></a></li>
+          <li><a href="#paging-and-sorting"
+          id="toc-paging-and-sorting">Paging and Sorting</a></li>
+          <li><a href="#manytomany" id="toc-manytomany"><span
+          class="citation"
+          data-cites="ManyToMany">@ManyToMany</span></a></li>
+          </ul></li>
+          </ul></li>
+          </ul>
+        </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+        
+<h1 id="spring-data-jpa---depth---collegeapi">Spring Data JPA - Depth -
+CollegeAPI</h1>
+<h2 id="table-of-contents">Table of contents</h2>
+<ul>
+<li><a href="#setup-and-prerequisite">Setup and Prerequisite</a>
+<ul>
+<li><a href="#database-er-diagram">Database ER Diagram</a></li>
+<li><a href="#student-entity">Student Entity</a>
+<ul>
+<li><a href="#different-jpa-annotations">Different JPA
+Annotations</a></li>
+<li><a href="#testing-student-entity">Testing Student Entity</a></li>
+</ul></li>
+<li><a href="#guardian-entity">Guardian Entity</a>
+<ul>
+<li><a href="#testing-with-database-entry">Testing with Database
+entry</a></li>
+</ul></li>
+<li><a href="#jpa-repository-methods-and-queries">JPA Repository methods
+and Queries</a>
+<ul>
+<li><a
+href="#all-essential-methods-for-jpahttpsdocsspringiospring-datajpadocscurrentreferencehtmljpaquery-methods">All
+essential methods for JPA</a></li>
+<li><a href="#query---jpql-query"><span class="citation"
+data-cites="Query">@Query</span> - JPQL Query</a></li>
+<li><a href="#native-sql-query-in-jpa">Native SQL <span class="citation"
+data-cites="Query">@Query</span> in JPA</a></li>
+<li><a href="#query-named-param">Query Named <span class="citation"
+data-cites="Param">@Param</span></a></li>
+<li><a href="#transactional-and-modifying---update">Transactional and
+<span class="citation" data-cites="Modifying">@Modifying</span> -
+UPDATE</a></li>
+</ul></li>
+<li><a href="#relationships-in-jpa">Relationships in JPA</a>
+<ul>
+<li><a href="#onetoone-relationship"><span class="citation"
+data-cites="OneToOne">@OneToOne</span> Relationship</a></li>
+<li><a href="#cascading">Cascading</a></li>
+<li><a href="#fetch-types--eager-lazy">Fetch Types- Eager, Lazy</a></li>
+<li><a href="#uni-and-bi-directional-relationship">Uni and
+Bi-directional Relationship</a></li>
+<li><a href="#onetomany-relationship"><span class="citation"
+data-cites="OneToMany">@OneToMany</span> Relationship</a></li>
+<li><a href="#manytoone-relationship"><span class="citation"
+data-cites="ManyToOne">@ManyToOne</span> Relationship</a></li>
+<li><a href="#paging-and-sorting">Paging and Sorting</a></li>
+<li><a href="#manytomany-relationship"><span class="citation"
+data-cites="ManyToMany">@ManyToMany</span> Relationship</a></li>
+</ul></li>
+</ul></li>
+</ul>
+<h2 id="setup-and-prerequisite">Setup and Prerequisite</h2>
+<pre class="properties"><code>Project - Maven project
+Language - Java
+Spring Boot- 2.6.3
+
+Project Metadata
+Group - com.swarna
+Artifact - CollegeAPI-JPA
+Name - CollegeAPI-JPA
+Description - A complete API for college which demonstrates in depth practive of Spring Data JPA
+Package name - com.swarna.collegeapi
+
+Packaging - war
+Java - 8
+
+Dependencies
+- PostgreSQL Driver 
+- Spring Web
+- Lombok
+- Spring Data JPA</code></pre>
+<p>I have initialised mySQL Database and connected Spring Project with
+it.</p>
+<p><strong><em>application.properties</em></strong></p>
+<pre class="properties"><code>#JPA config
+#update means directly change in db while I run application
+spring.jpa.hibernate.ddl-auto:update
+spring.jpa.show-sql: true
+
+#mySQL Database Configurations
+#spring.datasource.url=jdbc:mysql://sql6.freesqldatabase.com:3306/sql6472211
+#spring.datasource.username=sql6472211
+#spring.datasource.password=BKZrwMePLL
+#spring.datasource.driver-class-name=com.mysql.jdbc.Driver
+#spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+#spring.jpa.database-platform=org.hibernate.dialect.MySQL5InnoDBDialect
+
+# Connecting to Postgres Database
+#spring.datasource.url=jdbc:postgresql://host:port/database
+spring.datasource.url=jdbc:postgresql://free-tier12.aws-ap-south-1.cockroachlabs.cloud:26257/swarna-db-200.defaultdb
+spring.datasource.username=swarnadeep
+spring.datasource.password=&lt;my_password&gt;
+spring.datasource.driver-class-name=org.postgresql.Driver
+spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.PostgreSQLDialect</code></pre>
+<h4 id="database-er-diagram">Database ER Diagram</h4>
+<figure>
+<img src="CollegeAPI-JPA-ER-Diagram1.png"
+alt="CollegeAPI-JPA-ER-Diagram" />
+<figcaption aria-hidden="true">CollegeAPI-JPA-ER-Diagram</figcaption>
+</figure>
+<h2 id="student-entity">Student Entity</h2>
+<h4 id="different-jpa-annotations">Different JPA Annotations</h4>
+<ul>
+<li><span class="citation" data-cites="Entity">@Entity</span> - used to
+tell JPA to create a table, <span class="citation"
+data-cites="Id">@Id</span> - used to select primary key.</li>
+<li><span class="citation" data-cites="Table">@Table</span>, <span
+class="citation" data-cites="Column">@Column</span> - used to rename
+table or column and to specify Unique constraints</li>
+<li><span class="citation" data-cites="Data">@Data</span>, <span
+class="citation"
+data-cites="AllArgsConstructor">@AllArgsConstructor</span>, <span
+class="citation"
+data-cites="NoArgsConstructor">@NoArgsConstructor</span>, <span
+class="citation" data-cites="Builder">@Builder</span> - these are Lombok
+annotations , which will create getters, setters and constructors in
+background.</li>
+<li><span class="citation"
+data-cites="SequenceGenerator">@SequenceGenerator</span> - to generate
+sequence and <span class="citation"
+data-cites="GeneratedValue">@GeneratedValue</span> - to assign sequence
+to a attribute</li>
+</ul>
+<p>Here is <strong><em>Student.java</em></strong> for reference</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode java"><code class="sourceCode java"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">package</span><span class="im"> com</span><span class="op">.</span><span class="im">swarna</span><span class="op">.</span><span class="im">collegeapi</span><span class="op">.</span><span class="im">student</span><span class="op">;</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="kw">...</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="at">@Entity</span> <span class="co">//means table </span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="at">@Data</span> <span class="co">// Lombok will generate Getter and Setters with this annotation</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="at">@AllArgsConstructor</span> <span class="co">//Lombok will generate @AllArgsConstructor</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="at">@NoArgsConstructor</span> <span class="co">//Lombok will generate @NoArgsConstructor</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="at">@Builder</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co">//Table name will be created with name tbl_student. We can rename tables and columns.</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="at">@Table</span><span class="op">(</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>        name<span class="op">=</span><span class="st">&quot;tbl_student&quot;</span><span class="op">,</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>        uniqueConstraints <span class="op">=</span> <span class="at">@UniqueConstraint</span><span class="op">(</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>                name<span class="op">=</span><span class="st">&quot;emailid_unique&quot;</span> <span class="op">,</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>                columnNames <span class="op">=</span> <span class="st">&quot;email_address&quot;</span><span class="op">)</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="op">)</span> </span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> Student <span class="op">{</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>    <span class="co">//Now we want to generate Primary key studentId automatically by a Database Sequence.</span></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">@Id</span></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">@SequenceGenerator</span><span class="op">(</span> <span class="co">//This will generate required generator</span></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>            name <span class="op">=</span> <span class="st">&quot;student_sequence&quot;</span><span class="op">,</span></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>            sequenceName <span class="op">=</span> <span class="st">&quot;&quot;</span><span class="op">,</span></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>            allocationSize <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>    <span class="op">)</span></span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">@GeneratedValue</span><span class="op">(</span> <span class="co">// This will assign Generated Value of student_sequence into studentId</span></span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>            strategy <span class="op">=</span> GenerationType<span class="op">.</span><span class="fu">SEQUENCE</span><span class="op">,</span></span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>            generator <span class="op">=</span> <span class="st">&quot;student_sequence&quot;</span></span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>    <span class="op">)</span></span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>    <span class="kw">private</span> <span class="dt">long</span> studentId<span class="op">;</span></span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>    <span class="kw">private</span> <span class="bu">String</span> firstName<span class="op">;</span></span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>    <span class="kw">private</span> <span class="bu">String</span> lastName<span class="op">;</span></span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a>    <span class="at">@Column</span><span class="op">(</span>name <span class="op">=</span> <span class="st">&quot;email_address&quot;</span><span class="op">,</span> <span class="co">// renaming auto generated email_id to email_address</span></span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>            nullable <span class="op">=</span> <span class="kw">false</span> <span class="co">// everytime we should be getting the value.</span></span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>    <span class="op">)</span></span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a>    <span class="kw">private</span> <span class="bu">String</span> emailId<span class="op">;</span></span>
+<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a>    <span class="kw">private</span> <span class="bu">String</span> guardianName<span class="op">;</span></span>
+<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a>    <span class="kw">private</span> <span class="bu">String</span> guardianEmail<span class="op">;</span></span>
+<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a>    <span class="kw">private</span> <span class="bu">String</span> guardianMobile<span class="op">;</span></span>
+<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>Now we creating <strong><em>StudentRepository.java</em></strong>
+Interface.</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode java"><code class="sourceCode java"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="at">@Repository</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">interface</span> StudentRepository <span class="kw">extends</span> JpaRepository<span class="op">&lt;</span>Student<span class="op">,</span> <span class="bu">Long</span><span class="op">&gt;</span> <span class="op">{</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co">//JpaRepository ultimately extends CrudRepository</span></span></code></pre></div>
+<h4 id="testing-student-entity">Testing Student Entity</h4>
+<p>Right click on <strong><em>StudentRepository.java</em></strong> -&gt;
+New -&gt; JUnit Test Case -&gt;
+<strong><em>StudentRepositoryTest.java</em></strong></p>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode java"><code class="sourceCode java"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">...</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="at">@SpringBootTest</span> <span class="co">// Used for testing. This will NOT flush the data when test completed</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co">//@DataJpaTest - Used to test repository layer. This will test and flush the data when test completed</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> StudentRepositoryTest <span class="op">{</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">@Autowired</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">private</span> StudentRepository studentRepository <span class="op">;</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">@Test</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">saveStudent</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>        Student student <span class="op">=</span> Student<span class="op">.</span><span class="fu">builder</span><span class="op">()</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>                <span class="op">.</span><span class="fu">emailId</span><span class="op">(</span><span class="st">&quot;test@gmail.com&quot;</span><span class="op">)</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>                <span class="op">.</span><span class="fu">firstName</span><span class="op">(</span><span class="st">&quot;Vito&quot;</span><span class="op">)</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>                <span class="op">.</span><span class="fu">lastName</span><span class="op">(</span><span class="st">&quot;COC&quot;</span><span class="op">)</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>                <span class="op">.</span><span class="fu">guardianName</span><span class="op">(</span><span class="st">&quot;SampleGuardian&quot;</span><span class="op">)</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>                <span class="op">.</span><span class="fu">guardianEmail</span><span class="op">(</span><span class="st">&quot;g@gmail.com&quot;</span><span class="op">)</span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>                <span class="op">.</span><span class="fu">guardianMobile</span><span class="op">(</span><span class="st">&quot;9479474843&quot;</span><span class="op">)</span></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>                <span class="op">.</span><span class="fu">build</span><span class="op">();</span></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>        studentRepository<span class="op">.</span><span class="fu">save</span><span class="op">(</span>student<span class="op">);</span></span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">@Test</span></span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">printAllStudent</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>        <span class="bu">List</span><span class="op">&lt;</span>Student<span class="op">&gt;</span> studentList <span class="op">=</span> studentRepository<span class="op">.</span><span class="fu">findAll</span><span class="op">();</span></span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>        <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">&quot;Students List : &quot;</span> <span class="op">+</span>studentList<span class="op">);</span></span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span>   </span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>So now right click on
+<strong><em>StudentRepositoryTest.java</em></strong> -&gt; Run as Junit
+Test</p>
+<p>Now we will make the student class better by group guardian details
+in the same student table only.</p>
+<h2 id="guardian-entity">Guardian Entity</h2>
+<p>We have initialized Guardian details like guardianName and others in
+Student.java but ideally it should be in a seperate class. So creating
+Guardian.java and changing Student.java</p>
+<p>Guardian.java</p>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode java"><code class="sourceCode java"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="at">@Embeddable</span> <span class="co">// Mentioning  Spring so that Guardian can be embeddable in Student class.</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="at">@Data</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="at">@AllArgsConstructor</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="at">@NoArgsConstructor</span> </span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="at">@AttributeOverrides</span><span class="op">({</span>  <span class="co">// This will take &quot;name&quot; column and insert in table with &quot;guardain_name&quot; column name</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">@AttributeOverride</span><span class="op">(</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>            name <span class="op">=</span> <span class="st">&quot;name&quot;</span><span class="op">,</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>            column <span class="op">=</span> <span class="at">@Column</span><span class="op">(</span>name <span class="op">=</span> <span class="st">&quot;guardain_name&quot;</span><span class="op">)</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    <span class="op">),</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">@AttributeOverride</span><span class="op">(</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>            name <span class="op">=</span> <span class="st">&quot;email&quot;</span><span class="op">,</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>            column <span class="op">=</span> <span class="at">@Column</span><span class="op">(</span>name <span class="op">=</span> <span class="st">&quot;guardain_email&quot;</span><span class="op">)</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>    <span class="op">),</span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">@AttributeOverride</span><span class="op">(</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>            name <span class="op">=</span> <span class="st">&quot;mobile&quot;</span><span class="op">,</span></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>            column <span class="op">=</span> <span class="at">@Column</span><span class="op">(</span>name <span class="op">=</span> <span class="st">&quot;guardain_mobile&quot;</span><span class="op">)</span></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>    <span class="op">)</span></span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a><span class="op">})</span></span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> Guardian <span class="op">{</span></span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>    <span class="kw">private</span> <span class="bu">String</span> name<span class="op">;</span></span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>    <span class="kw">private</span> <span class="bu">String</span> email<span class="op">;</span></span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>    <span class="kw">private</span> <span class="bu">String</span> mobile<span class="op">;</span></span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p><strong><em>Student.java</em></strong></p>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode java"><code class="sourceCode java"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> Student <span class="op">{</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">...</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">@Embedded</span> <span class="co">// Embedding guardain into here.</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">private</span> Guardian guardain<span class="op">;</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<h4 id="testing-with-database-entry">Testing with Database entry</h4>
+<p>Right click on <strong><em>StudentRepository.java</em></strong> -&gt;
+New -&gt; JUnit Test Case -&gt;
+<strong><em>StudentRepositoryTest.java</em></strong></p>
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode java"><code class="sourceCode java"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">...</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="at">@SpringBootTest</span> <span class="co">// Used for testing. This will NOT flush the data when test completed</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co">//@DataJpaTest - Used to test repository layer. This will test and flush the data when test completed</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> StudentRepositoryTest <span class="op">{</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">@Autowired</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">private</span> StudentRepository studentRepository <span class="op">;</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="kw">...</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">@Test</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">saveStudentWithGuardian</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>        Guardian guardian <span class="op">=</span> Guardian<span class="op">.</span><span class="fu">builder</span><span class="op">()</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>                <span class="op">.</span><span class="fu">name</span><span class="op">(</span><span class="st">&quot;ayanGuardian&quot;</span><span class="op">)</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>                <span class="op">.</span><span class="fu">email</span><span class="op">(</span><span class="st">&quot;ayanGuardian@gmail.com&quot;</span><span class="op">)</span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>                <span class="op">.</span><span class="fu">mobile</span><span class="op">(</span><span class="st">&quot;9373736373&quot;</span><span class="op">)</span></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>                <span class="op">.</span><span class="fu">build</span><span class="op">();</span></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>        Student student <span class="op">=</span> Student<span class="op">.</span><span class="fu">builder</span><span class="op">()</span></span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>                <span class="op">.</span><span class="fu">firstName</span><span class="op">(</span><span class="st">&quot;Ayan&quot;</span><span class="op">)</span></span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>                <span class="op">.</span><span class="fu">lastName</span><span class="op">(</span><span class="st">&quot;Desai&quot;</span><span class="op">)</span></span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>                <span class="op">.</span><span class="fu">emailId</span><span class="op">(</span><span class="st">&quot;ayan@gmail.com&quot;</span><span class="op">)</span></span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>                <span class="op">.</span><span class="fu">guardain</span><span class="op">(</span>guardian<span class="op">)</span></span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>                <span class="op">.</span><span class="fu">build</span><span class="op">();</span></span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>        studentRepository<span class="op">.</span><span class="fu">save</span><span class="op">(</span>student<span class="op">);</span></span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>So now right click on
+<strong><em>StudentRepositoryTest.java</em></strong> -&gt; Run as Junit
+Test</p>
+<p>Now we will make the student class better by group guardian details
+in the same student table only.</p>
+<h2 id="jpa-repository-methods-and-queries">JPA Repository methods and
+Queries</h2>
+<h4 id="all-essential-methods-for-jpa"><a
+href="https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#jpa.query-methods">All
+essential methods for JPA</a></h4>
+<p><strong><em>StudentRepository.java</em></strong> - some auto
+implemented methods example</p>
+<div class="sourceCode" id="cb9"><pre
+class="sourceCode java"><code class="sourceCode java"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="bu">List</span><span class="op">&lt;</span>Student<span class="op">&gt;</span> <span class="fu">findByFirstName</span><span class="op">(</span><span class="bu">String</span> firstName<span class="op">);</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="bu">List</span><span class="op">&lt;</span>Student<span class="op">&gt;</span> <span class="fu">findByFirstNameContaining</span><span class="op">(</span><span class="bu">String</span> name<span class="op">);</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="bu">List</span><span class="op">&lt;</span>Student<span class="op">&gt;</span> <span class="fu">findByLastNameNotNull</span><span class="op">();</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co">// No need to implement, just declaration. JPA will do implementation for us.</span></span></code></pre></div>
+<p><strong><em>StudentRepositoryTest.java</em></strong>- a auto
+implemented method test</p>
+<div class="sourceCode" id="cb10"><pre
+class="sourceCode java"><code class="sourceCode java"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="at">@Test</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">void</span> <span class="fu">printStudentByFirstName</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">List</span><span class="op">&lt;</span>Student<span class="op">&gt;</span> students <span class="op">=</span> studentRepository<span class="op">.</span><span class="fu">findByFirstName</span><span class="op">(</span><span class="st">&quot;Ayan&quot;</span><span class="op">);</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">&quot;Student with Name Ayan : &quot;</span> <span class="op">+</span>students<span class="op">);</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<h3 id="query---jpql-query"><span class="citation"
+data-cites="Query">@Query</span> - JPQL Query</h3>
+<p>JPQL is slightly different from normal SQL.</p>
+<p><strong><em>StudentRepository.java</em></strong> - Getting a student
+data by email id</p>
+<div class="sourceCode" id="cb11"><pre
+class="sourceCode java"><code class="sourceCode java"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co">//JPQL - based on Class name, not table name (eg- Student), ?1 = first argument</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="at">@Query</span><span class="op">(</span><span class="st">&quot;SELECT s from Student s where s.emailId = ?1&quot;</span><span class="op">)</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>Student <span class="fu">getStudentByEmailAddress</span><span class="op">(</span><span class="bu">String</span> emailId<span class="op">);</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="co">// To select specific column value like firstName, we should use SELECT s.firstName</span></span></code></pre></div>
+<p><strong><em>StudentRepositoryTest.java</em></strong> - Getting a
+student data by email id</p>
+<div class="sourceCode" id="cb12"><pre
+class="sourceCode java"><code class="sourceCode java"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="at">@Test</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">void</span> <span class="fu">getStudentByEmailAddress</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    Student student <span class="op">=</span> studentRepository<span class="op">.</span><span class="fu">getStudentByEmailAddress</span><span class="op">(</span><span class="st">&quot;ayan@gmail.com&quot;</span><span class="op">);</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">&quot;Student : &quot;</span> <span class="op">+</span>student<span class="op">);</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p><strong><em>StudentRepository.java</em></strong> - Getting only
+Firstname by filtering email id</p>
+<div class="sourceCode" id="cb13"><pre
+class="sourceCode java"><code class="sourceCode java"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co">//JPQL -To select specific column value like firstName, we should use SELECT s.firstName </span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="at">@Query</span><span class="op">(</span><span class="st">&quot;SELECT s.firstName from Student s where s.emailId = ?1&quot;</span><span class="op">)</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="bu">String</span> <span class="fu">getStudentFirstNameByEmailId</span><span class="op">(</span><span class="bu">String</span> emailId<span class="op">);</span></span></code></pre></div>
+<p><strong><em>StudentRepositoryTest.java</em></strong>- Getting only
+Firstname by filtering email id</p>
+<div class="sourceCode" id="cb14"><pre
+class="sourceCode java"><code class="sourceCode java"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="at">@Test</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">void</span> <span class="fu">getStudentFirstNameByEmailId</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">String</span> firstName<span class="op">=</span> studentRepository<span class="op">.</span><span class="fu">getStudentFirstNameByEmailId</span><span class="op">(</span><span class="st">&quot;chayan@gmail.com&quot;</span><span class="op">);</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">&quot;firstName : &quot;</span> <span class="op">+</span>firstName<span class="op">);</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<h3 id="native-sql-query-in-jpa">Native SQL <span class="citation"
+data-cites="Query">@Query</span> in JPA</h3>
+<p>JPA also supports native SQL queries , by which we can write same sql
+queries in jpa as what we do in any SQL language.</p>
+<p><strong><em>StudentRepository.java</em></strong> - Getting a student
+data by email id</p>
+<div class="sourceCode" id="cb15"><pre
+class="sourceCode java"><code class="sourceCode java"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co">//Native Query - using original table name, ?1 = first argument</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="at">@Query</span><span class="op">(</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    value<span class="op">=</span><span class="st">&quot;SELECT * from tbl_student s where s.email_address = ?1&quot;</span><span class="op">,</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    nativeQuery <span class="op">=</span> <span class="kw">true</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="op">)</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>Student <span class="fu">getStudentByEmailAddressNative</span><span class="op">(</span><span class="bu">String</span> emailId<span class="op">);</span></span></code></pre></div>
+<p><strong><em>StudentRepositoryTest.java</em></strong> - Getting a
+student data by email id</p>
+<div class="sourceCode" id="cb16"><pre
+class="sourceCode java"><code class="sourceCode java"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="at">@Test</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">void</span> <span class="fu">getStudentByEmailAddressNative</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    Student student <span class="op">=</span> studentRepository<span class="op">.</span><span class="fu">getStudentByEmailAddressNative</span><span class="op">(</span><span class="st">&quot;ayan@gmail.com&quot;</span><span class="op">);</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">&quot;Student : &quot;</span> <span class="op">+</span>student<span class="op">);</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<h3 id="query-named-param">Query Named <span class="citation"
+data-cites="Param">@Param</span></h3>
+<p>Everytime <code>?1</code> is not the best approach. So we will now
+use named parameters.</p>
+<p><strong><em>StudentRepository.java</em></strong> - Getting a student
+data by email id</p>
+<div class="sourceCode" id="cb17"><pre
+class="sourceCode java"><code class="sourceCode java"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co">//Named Param - :&lt;parameter_name&gt;, which needs to declared by @Param(&quot;parameter_name&quot;) tag for each parameters</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="at">@Query</span><span class="op">(</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    value<span class="op">=</span><span class="st">&quot;SELECT * from tbl_student s where s.email_address = :emailId&quot;</span><span class="op">,</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>    nativeQuery <span class="op">=</span> <span class="kw">true</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="op">)</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>Student <span class="fu">getStudentByEmailAddressNativeNamedParam</span><span class="op">(</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">@Param</span><span class="op">(</span><span class="st">&quot;emailId&quot;</span><span class="op">)</span> <span class="bu">String</span> emailId</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a><span class="op">);</span></span></code></pre></div>
+<p><strong><em>StudentRepositoryTest.java</em></strong> - Getting a
+student data by email id</p>
+<div class="sourceCode" id="cb18"><pre
+class="sourceCode java"><code class="sourceCode java"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="at">@Test</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">void</span> <span class="fu">getStudentByEmailAddressNativeNamedParam</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>    Student student <span class="op">=</span> studentRepository<span class="op">.</span><span class="fu">getStudentByEmailAddressNativeNamedParam</span><span class="op">(</span><span class="st">&quot;ayan@gmail.com&quot;</span><span class="op">);</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">&quot;Student : &quot;</span> <span class="op">+</span>student<span class="op">);</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<h3 id="transactional-and-modifying---update">Transactional and <span
+class="citation" data-cites="Modifying">@Modifying</span> - UPDATE</h3>
+<p>Used to Update / Insert / Delete the data.</p>
+<p><strong><em>StudentRepository.java</em></strong> - Updating Firstname
+by email id</p>
+<div class="sourceCode" id="cb19"><pre
+class="sourceCode java"><code class="sourceCode java"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="at">@Modifying</span> <span class="co">// Make this method to modify value in database</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="at">@Transactional</span> <span class="co">// Transaction is created -&gt; operations insert/update is done -&gt; transaction committed</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="at">@Query</span><span class="op">(</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>    value<span class="op">=</span><span class="st">&quot;UPDATE tbl_student set first_name = :firstName where email_address = :emailId &quot;</span><span class="op">,</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>    nativeQuery <span class="op">=</span> <span class="kw">true</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a><span class="op">)</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> <span class="fu">updateStudentNameByEmailId</span><span class="op">(</span></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">@Param</span><span class="op">(</span><span class="st">&quot;firstName&quot;</span><span class="op">)</span> <span class="bu">String</span> firstName<span class="op">,</span></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">@Param</span><span class="op">(</span><span class="st">&quot;emailId&quot;</span><span class="op">)</span> <span class="bu">String</span> emailId</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a><span class="op">);</span></span></code></pre></div>
+<p><strong><em>StudentRepositoryTest.java</em></strong> - Updating
+Firstname by email id</p>
+<div class="sourceCode" id="cb20"><pre
+class="sourceCode java"><code class="sourceCode java"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="at">@Test</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">void</span> <span class="fu">updateStudentNameByEmailId</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>    studentRepository<span class="op">.</span><span class="fu">updateStudentNameByEmailId</span><span class="op">(</span><span class="st">&quot;Updated Ayan&quot;</span><span class="op">,</span><span class="st">&quot;ayan@gmail.com&quot;</span><span class="op">);</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<h2 id="relationships-in-jpa">Relationships in JPA</h2>
+<h3 id="onetoone"><span class="citation"
+data-cites="OneToOne">@OneToOne</span></h3>
+<figure>
+<img src="CollegeAPI-JPA-ER-Diagram1.png"
+alt="CollegeAPI-JPA-ER-Diagram" />
+<figcaption aria-hidden="true">CollegeAPI-JPA-ER-Diagram</figcaption>
+</figure>
+<ul>
+<li>Course and CourseMaterial is One to One Relationship.</li>
+<li>For one course, there will be one Course Material and vice
+versa.</li>
+<li>First Created Course and CourseMaterial entity.</li>
+</ul>
+<p><strong><em>Course.java</em></strong></p>
+<div class="sourceCode" id="cb21"><pre
+class="sourceCode java"><code class="sourceCode java"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="kw">...</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">@Table</span><span class="op">(</span> name<span class="op">=</span><span class="st">&quot;tbl_course&quot;</span> <span class="op">)</span> </span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="kw">class</span> Course <span class="op">{</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">@Id</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">@SequenceGenerator</span><span class="op">(</span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>            name <span class="op">=</span> <span class="st">&quot;course_sequence&quot;</span><span class="op">,</span></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>            sequenceName <span class="op">=</span> <span class="st">&quot;course_sequence&quot;</span><span class="op">,</span></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>            allocationSize <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>        <span class="op">)</span></span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>        <span class="at">@GeneratedValue</span><span class="op">(</span></span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>            strategy <span class="op">=</span> GenerationType<span class="op">.</span><span class="fu">SEQUENCE</span><span class="op">,</span></span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>            generator <span class="op">=</span> <span class="st">&quot;course_sequence&quot;</span></span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>        <span class="op">)</span></span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>        <span class="kw">private</span> <span class="bu">Long</span> courseId<span class="op">;</span></span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>        <span class="kw">private</span> <span class="bu">String</span> title<span class="op">;</span></span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>        <span class="kw">private</span> <span class="bu">Integer</span> credit<span class="op">;</span> </span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span></code></pre></div>
+<p><strong><em>CourseMaterial.java</em></strong></p>
+<div class="sourceCode" id="cb22"><pre
+class="sourceCode java"><code class="sourceCode java"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="kw">...</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> CourseMaterial <span class="op">{</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">@Id</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">@SequenceGenerator</span><span class="op">(</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>        name <span class="op">=</span> <span class="st">&quot;course_material_sequence&quot;</span><span class="op">,</span></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>        sequenceName <span class="op">=</span> <span class="st">&quot;course_material_sequence&quot;</span><span class="op">,</span></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>        allocationSize <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>    <span class="op">)</span></span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">@GeneratedValue</span><span class="op">(</span></span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>        strategy <span class="op">=</span> GenerationType<span class="op">.</span><span class="fu">SEQUENCE</span><span class="op">,</span></span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>        generator <span class="op">=</span> <span class="st">&quot;course_material_sequence&quot;</span></span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>    <span class="op">)</span></span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>    <span class="kw">private</span> <span class="bu">Long</span> courseMaterialId<span class="op">;</span></span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>    <span class="kw">private</span> <span class="bu">String</span> url<span class="op">;</span></span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">@OneToOne</span> <span class="co">// courseMaterial cant exist without course and for one course, there will be one Course Material and vice versa.</span></span>
+<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">@JoinColumn</span><span class="op">(</span> <span class="co">// foreign key</span></span>
+<span id="cb22-19"><a href="#cb22-19" aria-hidden="true" tabindex="-1"></a>    name <span class="op">=</span> <span class="st">&quot;course_id&quot;</span><span class="op">,</span> <span class="co">//It will save as course_material table in DB with this name</span></span>
+<span id="cb22-20"><a href="#cb22-20" aria-hidden="true" tabindex="-1"></a>    referencedColumnName <span class="op">=</span> <span class="st">&quot;courseId&quot;</span> <span class="co">// This is the Column name of course table</span></span>
+<span id="cb22-21"><a href="#cb22-21" aria-hidden="true" tabindex="-1"></a>  <span class="op">)</span></span>
+<span id="cb22-22"><a href="#cb22-22" aria-hidden="true" tabindex="-1"></a>    <span class="kw">private</span> Course course<span class="op">;</span>  </span>
+<span id="cb22-23"><a href="#cb22-23" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>Created two Interface CourseRepository.java and
+CourseMaterialRepository.java</p>
+<div class="sourceCode" id="cb23"><pre
+class="sourceCode java"><code class="sourceCode java"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="at">@Repository</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">interface</span> CourseRepository <span class="kw">extends</span> JpaRepository<span class="op">&lt;</span>Course<span class="op">,</span> <span class="bu">Long</span><span class="op">&gt;{</span> <span class="op">}</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="at">@Repository</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">interface</span> CourseMaterialRepository <span class="kw">extends</span> JpaRepository<span class="op">&lt;</span>CourseMaterial<span class="op">,</span> <span class="bu">Long</span><span class="op">&gt;{}</span></span></code></pre></div>
+<p>Now we will testing CourseMaterialRepositoryTest.java</p>
+<div class="sourceCode" id="cb24"><pre
+class="sourceCode java"><code class="sourceCode java"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="kw">...</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="at">@SpringBootTest</span> <span class="co">// Used for testing. This will NOT flush the data when test completed</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> CourseMaterialRepositoryTest <span class="op">{</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">@Autowired</span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">private</span> CourseMaterialRepository courseMaterialRepository<span class="op">;</span></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">@Test</span></span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">saveCourseMaterial</span> <span class="op">()</span> <span class="op">{</span></span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>        Course course <span class="op">=</span> Course<span class="op">.</span><span class="fu">builder</span><span class="op">()</span></span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>                <span class="op">.</span><span class="fu">credit</span><span class="op">(</span><span class="dv">6</span><span class="op">)</span></span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>                <span class="op">.</span><span class="fu">title</span><span class="op">(</span><span class="st">&quot;Java Course Title&quot;</span><span class="op">)</span></span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a>                <span class="op">.</span><span class="fu">build</span><span class="op">();</span></span>
+<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a>        CourseMaterial courseMaterial <span class="op">=</span> CourseMaterial<span class="op">.</span><span class="fu">builder</span><span class="op">()</span></span>
+<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a>                <span class="op">.</span><span class="fu">course</span><span class="op">(</span>course<span class="op">)</span></span>
+<span id="cb24-17"><a href="#cb24-17" aria-hidden="true" tabindex="-1"></a>                <span class="op">.</span><span class="fu">url</span><span class="op">(</span><span class="st">&quot;https://www.google.com/&quot;</span><span class="op">)</span></span>
+<span id="cb24-18"><a href="#cb24-18" aria-hidden="true" tabindex="-1"></a>                <span class="op">.</span><span class="fu">build</span><span class="op">();</span></span>
+<span id="cb24-19"><a href="#cb24-19" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb24-20"><a href="#cb24-20" aria-hidden="true" tabindex="-1"></a>        courseMaterialRepository<span class="op">.</span><span class="fu">save</span><span class="op">(</span>courseMaterial<span class="op">);</span></span>
+<span id="cb24-21"><a href="#cb24-21" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb24-22"><a href="#cb24-22" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb24-23"><a href="#cb24-23" aria-hidden="true" tabindex="-1"></a><span class="co">/*</span></span>
+<span id="cb24-24"><a href="#cb24-24" aria-hidden="true" tabindex="-1"></a><span class="co">On running =&gt; it will throw error as below</span></span>
+<span id="cb24-25"><a href="#cb24-25" aria-hidden="true" tabindex="-1"></a><span class="co">Error =&gt; Object references an unsaved transient instance</span></span>
+<span id="cb24-26"><a href="#cb24-26" aria-hidden="true" tabindex="-1"></a><span class="co">Reason =&gt; we are trying to create CourseMaterial object , but referenced course is not in database.</span></span>
+<span id="cb24-27"><a href="#cb24-27" aria-hidden="true" tabindex="-1"></a><span class="co">Solution =&gt; CASCADING</span></span></code></pre></div>
+<h3 id="cascadetype">CascadeType</h3>
+<p><strong><em>CourseMaterial.java</em></strong></p>
+<div class="sourceCode" id="cb25"><pre
+class="sourceCode java"><code class="sourceCode java"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="at">@OneToOne</span><span class="op">(</span> cascade <span class="op">=</span> CascadeType<span class="op">.</span><span class="fu">ALL</span><span class="op">)</span> <span class="co">// Cascading </span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="at">@JoinColumn</span><span class="op">(</span> name <span class="op">=</span> <span class="st">&quot;course_id&quot;</span><span class="op">,</span> referencedColumnName <span class="op">=</span> <span class="st">&quot;courseId&quot;</span> <span class="op">)</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="kw">private</span> Course course<span class="op">;</span></span></code></pre></div>
+<p>This will cascade and save course first in database and then save
+course material, so that it will not throw error.</p>
+<h3 id="fetchtype---eager-lazy">FetchType - Eager, Lazy</h3>
+<p>A JPA association can be fetched lazily or eagerly. The fetching
+strategy is controlled via the <code>fetch</code> attribute of the <a
+href="https://vladmihalcea.com/the-best-way-to-map-a-onetomany-association-with-jpa-and-hibernate/"><code>@OneToMany</code></a>,
+<a
+href="https://vladmihalcea.com/the-best-way-to-map-a-onetoone-relationship-with-jpa-and-hibernate/"><code>@OneToOne</code></a>,
+<a
+href="https://vladmihalcea.com/manytoone-jpa-hibernate/"><code>@ManyToOne</code></a>,
+or <a
+href="https://vladmihalcea.com/the-best-way-to-use-the-manytomany-annotation-with-jpa-and-hibernate/"><code>@ManyToMany</code></a>.
+Types to fetch data from DB</p>
+<ul>
+<li>Eager Fetching</li>
+<li>Lazy Fetching</li>
+</ul>
+<p>If I fetch CourseMaterial, do I need to fetch Course also, if yes,
+then I should use <strong>Eager Fetching</strong>, else in <strong>Lazy
+Fetching</strong>, it will not fetch Course , until I say so .</p>
+<p>Here I am demonstrating LAZY Fetching.</p>
+<p><strong><em>CourseMaterial.java</em></strong></p>
+<div class="sourceCode" id="cb26"><pre
+class="sourceCode java"><code class="sourceCode java"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="at">@OneToOne</span><span class="op">(</span> </span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>    cascade <span class="op">=</span> CascadeType<span class="op">.</span><span class="fu">ALL</span><span class="op">,</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>    fetch <span class="op">=</span> FetchType<span class="op">.</span><span class="fu">LAZY</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="op">)</span> </span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a><span class="at">@JoinColumn</span><span class="op">(</span> name <span class="op">=</span> <span class="st">&quot;course_id&quot;</span><span class="op">,</span> referencedColumnName <span class="op">=</span> <span class="st">&quot;courseId&quot;</span> <span class="op">)</span></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a><span class="kw">private</span> Course course<span class="op">;</span></span></code></pre></div>
+<p><strong><em>CourseMaterialRepositoryTest.java</em></strong></p>
+<p>Printing all course materials.</p>
+<div class="sourceCode" id="cb27"><pre
+class="sourceCode java"><code class="sourceCode java"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="at">@Test</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">void</span> <span class="fu">printAllCourseMaterials</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">List</span><span class="op">&lt;</span>CourseMaterial<span class="op">&gt;</span> courseMaterials <span class="op">=</span> courseMaterialRepository<span class="op">.</span><span class="fu">findAll</span><span class="op">();</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>    <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">&quot;Course Materials = &quot;</span> <span class="op">+</span> courseMaterials<span class="op">);</span></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>But it is Throwing error</p>
+<pre><code>org.hibernate.LazyInitializationException: could not initialize proxy [com.swarna.collegeapi.course.Course#1</code></pre>
+<p>In CourseMaterial.java, there is a toString() method which is calling
+for course, I have to remove that for now.</p>
+<p><strong><em>CourseMaterial.java</em></strong></p>
+<div class="sourceCode" id="cb29"><pre
+class="sourceCode java"><code class="sourceCode java"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="kw">...</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="at">@ToString</span><span class="op">(</span>exclude <span class="op">=</span> <span class="st">&quot;course&quot;</span><span class="op">)</span> <span class="co">// excluding course toString method</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> CourseMaterial <span class="op">{</span></span></code></pre></div>
+<p>Now our test will successful.</p>
+<p>Test Output :</p>
+<pre><code>Courses = [Course(courseId=1, title=Java Course Title, credit=6)]</code></pre>
+<h3 id="uni-bi-directional-relationship">Uni &amp; Bi-directional
+Relationship</h3>
+<p>We have created <strong>unidirectional</strong> mapping from
+CourseMaterial using JOIN, and we fetched Course from
+CourseMaterial.</p>
+<p>Now we will create <strong>bidirectional</strong> mapping, so that we
+can fetch courseMaterial from Course also.</p>
+<p><strong><em>Course.java</em></strong></p>
+<div class="sourceCode" id="cb31"><pre
+class="sourceCode java"><code class="sourceCode java"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> Course <span class="op">{</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">...</span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">@OneToOne</span><span class="op">(</span>mappedBy <span class="op">=</span> <span class="st">&quot;course&quot;</span><span class="op">)</span></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">private</span> CourseMaterial courseMaterial<span class="op">;</span></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p><strong><em>CourseRepositoryTest.java</em></strong></p>
+<div class="sourceCode" id="cb32"><pre
+class="sourceCode java"><code class="sourceCode java"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="at">@SpringBootTest</span> <span class="co">// Used for testing. This will NOT flush the data when test completed</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> CourseTest <span class="op">{</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">@Autowired</span></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">private</span> CourseRepository courseRepository<span class="op">;</span></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">@Test</span></span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">printAllCourses</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>        <span class="bu">List</span><span class="op">&lt;</span>Course<span class="op">&gt;</span> courses <span class="op">=</span> courseRepository<span class="op">.</span><span class="fu">findAll</span><span class="op">();</span>  </span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a>        <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">&quot;Courses = &quot;</span> <span class="op">+</span> courses<span class="op">);</span></span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>Output :</p>
+<pre><code>Courses = [Course(courseId=1, title=Java Course Title, credit=6, courseMaterial=CourseMaterial(courseMaterialId=1, url=https://www.google.com))]</code></pre>
+<h3 id="onetomany"><span class="citation"
+data-cites="OneToMany">@OneToMany</span></h3>
+<ul>
+<li>One Teacher can taught many Courses (OneToMany Relationship)</li>
+<li>Many courses can be taught by one teacher (ManyToOne
+Relationship)</li>
+</ul>
+<p>Created <strong><em>Teacher.java</em></strong></p>
+<div class="sourceCode" id="cb34"><pre
+class="sourceCode java"><code class="sourceCode java"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="kw">...</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> Teacher <span class="op">{</span></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">@Id</span></span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">@SequenceGenerator</span><span class="op">(</span></span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>            name <span class="op">=</span> <span class="st">&quot;teacher_sequence&quot;</span><span class="op">,</span></span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>            sequenceName <span class="op">=</span> <span class="st">&quot;teacher_sequence&quot;</span><span class="op">,</span></span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>            allocationSize <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a>    <span class="op">)</span></span>
+<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">@GeneratedValue</span><span class="op">(</span></span>
+<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a>            strategy <span class="op">=</span> GenerationType<span class="op">.</span><span class="fu">SEQUENCE</span><span class="op">,</span></span>
+<span id="cb34-12"><a href="#cb34-12" aria-hidden="true" tabindex="-1"></a>            generator <span class="op">=</span> <span class="st">&quot;teacher_sequence&quot;</span></span>
+<span id="cb34-13"><a href="#cb34-13" aria-hidden="true" tabindex="-1"></a>    <span class="op">)</span></span>
+<span id="cb34-14"><a href="#cb34-14" aria-hidden="true" tabindex="-1"></a>    <span class="kw">private</span> <span class="bu">Long</span> teacherId<span class="op">;</span></span>
+<span id="cb34-15"><a href="#cb34-15" aria-hidden="true" tabindex="-1"></a>    <span class="kw">private</span> <span class="bu">String</span> firstName<span class="op">;</span></span>
+<span id="cb34-16"><a href="#cb34-16" aria-hidden="true" tabindex="-1"></a>    <span class="kw">private</span> <span class="bu">String</span> lastName<span class="op">;</span></span>
+<span id="cb34-17"><a href="#cb34-17" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb34-18"><a href="#cb34-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">@OneToMany</span><span class="op">(</span>cascade <span class="op">=</span> CascadeType<span class="op">.</span><span class="fu">ALL</span><span class="op">)</span></span>
+<span id="cb34-19"><a href="#cb34-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">@JoinColumn</span><span class="op">(</span>name <span class="op">=</span> <span class="st">&quot;teacher_id&quot;</span><span class="op">,</span> referencedColumnName <span class="op">=</span> <span class="st">&quot;teacherId&quot;</span><span class="op">)</span></span>
+<span id="cb34-20"><a href="#cb34-20" aria-hidden="true" tabindex="-1"></a>    <span class="co">// this will create a foreign key in course table with name teacher_id</span></span>
+<span id="cb34-21"><a href="#cb34-21" aria-hidden="true" tabindex="-1"></a>    <span class="kw">private</span> <span class="bu">List</span><span class="op">&lt;</span>Course<span class="op">&gt;</span> courses<span class="op">;</span></span>
+<span id="cb34-22"><a href="#cb34-22" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>Created <strong><em>TeacherRepository.java</em></strong></p>
+<div class="sourceCode" id="cb35"><pre
+class="sourceCode java"><code class="sourceCode java"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="at">@Repository</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">interface</span> TeacherRepository <span class="kw">extends</span> JpaRepository<span class="op">&lt;</span>Teacher<span class="op">,</span> <span class="bu">Long</span><span class="op">&gt;{</span> <span class="op">}</span></span></code></pre></div>
+<p>Created <strong><em>TeacherRepositoryTest.java</em></strong></p>
+<p>Here we are adding Teacher after adding one course. But we have not
+added CourseMaterial for the new course. Now this is allowed. But we
+will disallow this in future.</p>
+<div class="sourceCode" id="cb36"><pre
+class="sourceCode java"><code class="sourceCode java"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="at">@SpringBootTest</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> TeacherRepositoryTest <span class="op">{</span></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">@Autowired</span></span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">private</span> TeacherRepository teacherRepository<span class="op">;</span></span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">@Testd</span></span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">saveTeacher</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a>        Course courseDba <span class="op">=</span> Course<span class="op">.</span><span class="fu">builder</span><span class="op">().</span><span class="fu">title</span><span class="op">(</span><span class="st">&quot;DBA&quot;</span><span class="op">).</span><span class="fu">credit</span><span class="op">(</span><span class="dv">4</span><span class="op">).</span><span class="fu">build</span><span class="op">();</span></span>
+<span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a>        Course courseJava <span class="op">=</span> Course<span class="op">.</span><span class="fu">builder</span><span class="op">().</span><span class="fu">title</span><span class="op">(</span><span class="st">&quot;JAVA&quot;</span><span class="op">).</span><span class="fu">credit</span><span class="op">(</span><span class="dv">5</span><span class="op">).</span><span class="fu">build</span><span class="op">();</span></span>
+<span id="cb36-11"><a href="#cb36-11" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb36-12"><a href="#cb36-12" aria-hidden="true" tabindex="-1"></a>        Teacher teacher <span class="op">=</span> Teacher<span class="op">.</span><span class="fu">builder</span><span class="op">()</span></span>
+<span id="cb36-13"><a href="#cb36-13" aria-hidden="true" tabindex="-1"></a>                <span class="op">.</span><span class="fu">firstName</span><span class="op">(</span><span class="st">&quot;Ricky&quot;</span><span class="op">)</span></span>
+<span id="cb36-14"><a href="#cb36-14" aria-hidden="true" tabindex="-1"></a>                <span class="op">.</span><span class="fu">lastName</span><span class="op">(</span><span class="st">&quot;Ghosh&quot;</span><span class="op">)</span></span>
+<span id="cb36-15"><a href="#cb36-15" aria-hidden="true" tabindex="-1"></a>                <span class="op">.</span><span class="fu">courses</span><span class="op">(</span><span class="bu">List</span><span class="op">.</span><span class="fu">of</span><span class="op">(</span>courseDba<span class="op">,</span>courseJava<span class="op">))</span></span>
+<span id="cb36-16"><a href="#cb36-16" aria-hidden="true" tabindex="-1"></a>                <span class="op">.</span><span class="fu">build</span><span class="op">();</span></span>
+<span id="cb36-17"><a href="#cb36-17" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb36-18"><a href="#cb36-18" aria-hidden="true" tabindex="-1"></a>        teacherRepository<span class="op">.</span><span class="fu">save</span><span class="op">(</span>teacher<span class="op">);</span></span>
+<span id="cb36-19"><a href="#cb36-19" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb36-20"><a href="#cb36-20" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>Now we are adding <strong>optional=false</strong> in CourseMaterial,
+so that a new CourseMaterial should be added for a new course.</p>
+<p><strong><em>CourseMaterial.java</em></strong></p>
+<div class="sourceCode" id="cb37"><pre
+class="sourceCode java"><code class="sourceCode java"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="at">@OneToOne</span><span class="op">(</span> </span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>    cascade <span class="op">=</span> CascadeType<span class="op">.</span><span class="fu">ALL</span><span class="op">,</span></span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>    fetch <span class="op">=</span> FetchType<span class="op">.</span><span class="fu">LAZY</span><span class="op">,</span></span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>    optional <span class="op">=</span> <span class="kw">false</span> <span class="co">// This will disallow new Course addition without new Course Material</span></span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a><span class="op">)</span> </span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a><span class="at">@JoinColumn</span><span class="op">(</span> name <span class="op">=</span> <span class="st">&quot;course_id&quot;</span><span class="op">,</span> referencedColumnName <span class="op">=</span> <span class="st">&quot;courseId&quot;</span> <span class="op">)</span></span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a><span class="kw">private</span> Course course<span class="op">;</span></span></code></pre></div>
+<p>So if we try to save a new course material without course , it will
+throw error.</p>
+<h3 id="manytoone"><span class="citation"
+data-cites="ManyToOne">@ManyToOne</span></h3>
+<ul>
+<li>One Teacher can taught many Courses (OneToMany Relationship)</li>
+<li>Many courses can be taught by one teacher (ManyToOne
+Relationship)</li>
+<li>We should use <span class="citation"
+data-cites="ManyToOne">@ManyToOne</span> rather than <span
+class="citation" data-cites="OneToMany">@OneToMany</span> whenever
+possible. JPA also prefers <span class="citation"
+data-cites="ManyToOne">@ManyToOne</span></li>
+</ul>
+<p>So first we are commenting <span class="citation"
+data-cites="OnetToMany">@OnetToMany</span> from Teacher entity.</p>
+<p><strong><em>Teacher.java</em></strong></p>
+<div class="sourceCode" id="cb38"><pre
+class="sourceCode java"><code class="sourceCode java"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co">/*@OneToMany(cascade = CascadeType.ALL)</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="co">@JoinColumn(name = &quot;teacher_id&quot;, referencedColumnName = &quot;teacherId&quot;)</span></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a><span class="co">private List&lt;Course&gt; courses;*/</span></span></code></pre></div>
+<p><strong><em>Course.java</em></strong></p>
+<div class="sourceCode" id="cb39"><pre
+class="sourceCode java"><code class="sourceCode java"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="at">@ManyToOne</span><span class="op">(</span>cascade <span class="op">=</span> CascadeType<span class="op">.</span><span class="fu">ALL</span><span class="op">)</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="at">@JoinColumn</span><span class="op">(</span>name <span class="op">=</span> <span class="st">&quot;teacher_id&quot;</span><span class="op">,</span> referencedColumnName <span class="op">=</span> <span class="st">&quot;teacherId&quot;</span><span class="op">)</span></span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a><span class="kw">private</span> Teacher teacher<span class="op">;</span></span></code></pre></div>
+<p><strong><em>CourseRepositoryTest.java</em></strong></p>
+<div class="sourceCode" id="cb40"><pre
+class="sourceCode java"><code class="sourceCode java"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="kw">...</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">@Test</span></span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">saveCourseWithTeacher</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>    Teacher teacher <span class="op">=</span> Teacher<span class="op">.</span><span class="fu">builder</span><span class="op">()</span></span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>        <span class="op">.</span><span class="fu">firstName</span><span class="op">(</span><span class="st">&quot;Amit&quot;</span><span class="op">)</span></span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>        <span class="op">.</span><span class="fu">lastName</span><span class="op">(</span><span class="st">&quot;Tiwari&quot;</span><span class="op">)</span></span>
+<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a>        <span class="op">.</span><span class="fu">build</span><span class="op">();</span></span>
+<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-9"><a href="#cb40-9" aria-hidden="true" tabindex="-1"></a>    Course course <span class="op">=</span> Course<span class="op">.</span><span class="fu">builder</span><span class="op">()</span></span>
+<span id="cb40-10"><a href="#cb40-10" aria-hidden="true" tabindex="-1"></a>        <span class="op">.</span><span class="fu">title</span><span class="op">(</span><span class="st">&quot;Python&quot;</span><span class="op">)</span></span>
+<span id="cb40-11"><a href="#cb40-11" aria-hidden="true" tabindex="-1"></a>        <span class="op">.</span><span class="fu">credit</span><span class="op">(</span><span class="dv">5</span><span class="op">)</span></span>
+<span id="cb40-12"><a href="#cb40-12" aria-hidden="true" tabindex="-1"></a>        <span class="op">.</span><span class="fu">teacher</span><span class="op">(</span>teacher<span class="op">)</span></span>
+<span id="cb40-13"><a href="#cb40-13" aria-hidden="true" tabindex="-1"></a>        <span class="op">.</span><span class="fu">build</span><span class="op">();</span></span>
+<span id="cb40-14"><a href="#cb40-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-15"><a href="#cb40-15" aria-hidden="true" tabindex="-1"></a>    courseRepository<span class="op">.</span><span class="fu">save</span><span class="op">(</span>course<span class="op">);</span></span>
+<span id="cb40-16"><a href="#cb40-16" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span>   </span></code></pre></div>
+<h3 id="paging-and-sorting">Paging and Sorting</h3>
+<p>JpaRepository extends PagingAndSortingRepository, which is having imp
+methods fot Pagination and Sorting of data.</p>
+<div class="sourceCode" id="cb41"><pre
+class="sourceCode java"><code class="sourceCode java"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="at">@Test</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">void</span> <span class="fu">findAllPagination</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">Pageable</span> firstPageWithThreeRecords <span class="op">=</span> PageRequest<span class="op">.</span><span class="fu">of</span><span class="op">(</span><span class="dv">0</span><span class="op">,</span> <span class="dv">3</span><span class="op">);</span></span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">Pageable</span> secondPageWithTwoRecords <span class="op">=</span> PageRequest<span class="op">.</span><span class="fu">of</span><span class="op">(</span><span class="dv">1</span><span class="op">,</span> <span class="dv">2</span><span class="op">);</span></span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>    <span class="bu">List</span><span class="op">&lt;</span>Course<span class="op">&gt;</span> courses <span class="op">=</span> courseRepository<span class="op">.</span><span class="fu">findAll</span><span class="op">(</span>firstPageWithThreeRecords<span class="op">).</span><span class="fu">getContent</span><span class="op">();</span></span>
+<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a>    <span class="bu">Long</span> totalElements <span class="op">=</span> courseRepository<span class="op">.</span><span class="fu">findAll</span><span class="op">(</span>firstPageWithThreeRecords<span class="op">).</span><span class="fu">getTotalElements</span><span class="op">();</span></span>
+<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> totalPages <span class="op">=</span> courseRepository<span class="op">.</span><span class="fu">findAll</span><span class="op">(</span>firstPageWithThreeRecords<span class="op">).</span><span class="fu">getTotalPages</span><span class="op">();</span></span>
+<span id="cb41-9"><a href="#cb41-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-10"><a href="#cb41-10" aria-hidden="true" tabindex="-1"></a>    <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">&quot;totalElements = &quot;</span> <span class="op">+</span> totalElements<span class="op">);</span></span>
+<span id="cb41-11"><a href="#cb41-11" aria-hidden="true" tabindex="-1"></a>    <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">&quot;totalPages = &quot;</span> <span class="op">+</span> totalPages<span class="op">);</span></span>
+<span id="cb41-12"><a href="#cb41-12" aria-hidden="true" tabindex="-1"></a>    <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">&quot;Courses = &quot;</span> <span class="op">+</span> courses<span class="op">);</span></span>
+<span id="cb41-13"><a href="#cb41-13" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb41-14"><a href="#cb41-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-15"><a href="#cb41-15" aria-hidden="true" tabindex="-1"></a><span class="at">@Test</span></span>
+<span id="cb41-16"><a href="#cb41-16" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">void</span> <span class="fu">findAllSorting</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="cb41-17"><a href="#cb41-17" aria-hidden="true" tabindex="-1"></a>    <span class="bu">Pageable</span> sortByTitle <span class="op">=</span> PageRequest<span class="op">.</span><span class="fu">of</span><span class="op">(</span><span class="dv">0</span><span class="op">,</span> <span class="dv">2</span><span class="op">,</span> Sort<span class="op">.</span><span class="fu">by</span><span class="op">(</span><span class="st">&quot;title&quot;</span><span class="op">));</span></span>
+<span id="cb41-18"><a href="#cb41-18" aria-hidden="true" tabindex="-1"></a>    <span class="bu">Pageable</span> sortByCreditDesc <span class="op">=</span> PageRequest<span class="op">.</span><span class="fu">of</span><span class="op">(</span><span class="dv">0</span><span class="op">,</span> <span class="dv">2</span><span class="op">,</span> Sort<span class="op">.</span><span class="fu">by</span><span class="op">(</span><span class="st">&quot;credit&quot;</span><span class="op">).</span><span class="fu">descending</span><span class="op">());</span></span>
+<span id="cb41-19"><a href="#cb41-19" aria-hidden="true" tabindex="-1"></a>    <span class="bu">Pageable</span> sortByTitleAndCredit <span class="op">=</span> PageRequest<span class="op">.</span><span class="fu">of</span><span class="op">(</span><span class="dv">0</span><span class="op">,</span> <span class="dv">2</span><span class="op">,</span> Sort<span class="op">.</span><span class="fu">by</span><span class="op">(</span><span class="st">&quot;title&quot;</span><span class="op">)</span></span>
+<span id="cb41-20"><a href="#cb41-20" aria-hidden="true" tabindex="-1"></a>                                                   <span class="op">.</span><span class="fu">descending</span><span class="op">().</span><span class="fu">and</span><span class="op">(</span>Sort<span class="op">.</span><span class="fu">by</span><span class="op">(</span><span class="st">&quot;credit&quot;</span><span class="op">)));</span></span>
+<span id="cb41-21"><a href="#cb41-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-22"><a href="#cb41-22" aria-hidden="true" tabindex="-1"></a>    <span class="bu">List</span><span class="op">&lt;</span>Course<span class="op">&gt;</span> courses <span class="op">=</span> courseRepository<span class="op">.</span><span class="fu">findAll</span><span class="op">(</span>sortByTitle<span class="op">).</span><span class="fu">getContent</span><span class="op">();</span></span>
+<span id="cb41-23"><a href="#cb41-23" aria-hidden="true" tabindex="-1"></a>    <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">&quot;Courses = &quot;</span> <span class="op">+</span> courses<span class="op">);</span></span>
+<span id="cb41-24"><a href="#cb41-24" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<h3 id="manytomany"><span class="citation"
+data-cites="ManyToMany">@ManyToMany</span></h3>
+<ul>
+<li>Many Student can opt for many courses available.</li>
+<li>We have Student and Course Entity. Here we need to have one another
+table which will hold the relationships between Student and Course.</li>
+<li>So New table will be introduced.</li>
+<li>Have to mention property(courseId) of same class(Couse) in
+<strong>joinColumns</strong></li>
+<li>Have to mention property(studentId) of the newly declared
+class(student) in <strong>inverseJoinColumns</strong></li>
+</ul>
+<p><strong><em>Course.java</em></strong></p>
+<div class="sourceCode" id="cb42"><pre
+class="sourceCode java"><code class="sourceCode java"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="at">@ManyToMany</span><span class="op">(</span>cascade <span class="op">=</span> CascadeType<span class="op">.</span><span class="fu">ALL</span><span class="op">)</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a><span class="at">@JoinTable</span><span class="op">(</span></span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>    name <span class="op">=</span> <span class="st">&quot;student_course_map&quot;</span><span class="op">,</span></span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>    joinColumns <span class="op">=</span> <span class="at">@JoinColumn</span><span class="op">(</span> <span class="co">// for students, what courses they have</span></span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>        name <span class="op">=</span> <span class="st">&quot;course_id&quot;</span><span class="op">,</span></span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>        referencedColumnName <span class="op">=</span> <span class="st">&quot;courseId&quot;</span></span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a>    <span class="op">),</span></span>
+<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a>    inverseJoinColumns <span class="op">=</span> <span class="at">@JoinColumn</span><span class="op">(</span> <span class="co">// for courses, what should be the students</span></span>
+<span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a>        name <span class="op">=</span> <span class="st">&quot;student_id&quot;</span><span class="op">,</span></span>
+<span id="cb42-10"><a href="#cb42-10" aria-hidden="true" tabindex="-1"></a>        referencedColumnName <span class="op">=</span> <span class="st">&quot;studentId&quot;</span></span>
+<span id="cb42-11"><a href="#cb42-11" aria-hidden="true" tabindex="-1"></a>    <span class="op">)</span></span>
+<span id="cb42-12"><a href="#cb42-12" aria-hidden="true" tabindex="-1"></a><span class="op">)</span></span>
+<span id="cb42-13"><a href="#cb42-13" aria-hidden="true" tabindex="-1"></a><span class="kw">private</span> <span class="bu">List</span><span class="op">&lt;</span>Student<span class="op">&gt;</span> students<span class="op">;</span></span>
+<span id="cb42-14"><a href="#cb42-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-15"><a href="#cb42-15" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">void</span> <span class="fu">addStudents</span><span class="op">(</span>Student student<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb42-16"><a href="#cb42-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span><span class="op">(</span>students <span class="op">==</span> <span class="kw">null</span><span class="op">)</span> students <span class="op">=</span> <span class="kw">new</span> <span class="bu">ArrayList</span><span class="op">&lt;&gt;();</span></span>
+<span id="cb42-17"><a href="#cb42-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-18"><a href="#cb42-18" aria-hidden="true" tabindex="-1"></a>    students<span class="op">.</span><span class="fu">add</span><span class="op">(</span>student<span class="op">);</span></span>
+<span id="cb42-19"><a href="#cb42-19" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p><strong><em>CourseRepositoryTest.java</em></strong></p>
+<div class="sourceCode" id="cb43"><pre
+class="sourceCode java"><code class="sourceCode java"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="at">@Test</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">void</span> <span class="fu">saveCourseWithStudentAndTeacher</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>    Teacher teacher <span class="op">=</span> Teacher<span class="op">.</span><span class="fu">builder</span><span class="op">()</span></span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>        <span class="op">.</span><span class="fu">firstName</span><span class="op">(</span><span class="st">&quot;Vartul&quot;</span><span class="op">)</span></span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>        <span class="op">.</span><span class="fu">lastName</span><span class="op">(</span><span class="st">&quot;Prasad&quot;</span><span class="op">)</span></span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a>        <span class="op">.</span><span class="fu">build</span><span class="op">();</span></span>
+<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-8"><a href="#cb43-8" aria-hidden="true" tabindex="-1"></a>    Guardian guardian <span class="op">=</span> Guardian<span class="op">.</span><span class="fu">builder</span><span class="op">()</span></span>
+<span id="cb43-9"><a href="#cb43-9" aria-hidden="true" tabindex="-1"></a>        <span class="op">.</span><span class="fu">name</span><span class="op">(</span><span class="st">&quot;Prakash&quot;</span><span class="op">)</span></span>
+<span id="cb43-10"><a href="#cb43-10" aria-hidden="true" tabindex="-1"></a>        <span class="op">.</span><span class="fu">email</span><span class="op">(</span><span class="st">&quot;prakash@gmail.com&quot;</span><span class="op">)</span></span>
+<span id="cb43-11"><a href="#cb43-11" aria-hidden="true" tabindex="-1"></a>        <span class="op">.</span><span class="fu">mobile</span><span class="op">(</span><span class="st">&quot;123121211&quot;</span><span class="op">)</span></span>
+<span id="cb43-12"><a href="#cb43-12" aria-hidden="true" tabindex="-1"></a>        <span class="op">.</span><span class="fu">build</span><span class="op">();</span></span>
+<span id="cb43-13"><a href="#cb43-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-14"><a href="#cb43-14" aria-hidden="true" tabindex="-1"></a>    Student student <span class="op">=</span> Student<span class="op">.</span><span class="fu">builder</span><span class="op">()</span></span>
+<span id="cb43-15"><a href="#cb43-15" aria-hidden="true" tabindex="-1"></a>        <span class="op">.</span><span class="fu">firstName</span><span class="op">(</span><span class="st">&quot;Akash&quot;</span><span class="op">)</span></span>
+<span id="cb43-16"><a href="#cb43-16" aria-hidden="true" tabindex="-1"></a>        <span class="op">.</span><span class="fu">lastName</span><span class="op">(</span><span class="st">&quot;Bhowmik&quot;</span><span class="op">)</span></span>
+<span id="cb43-17"><a href="#cb43-17" aria-hidden="true" tabindex="-1"></a>        <span class="op">.</span><span class="fu">emailId</span><span class="op">(</span><span class="st">&quot;akash@gmail.com&quot;</span><span class="op">)</span></span>
+<span id="cb43-18"><a href="#cb43-18" aria-hidden="true" tabindex="-1"></a>        <span class="op">.</span><span class="fu">guardain</span><span class="op">(</span>guardian<span class="op">)</span></span>
+<span id="cb43-19"><a href="#cb43-19" aria-hidden="true" tabindex="-1"></a>        <span class="op">.</span><span class="fu">build</span><span class="op">();</span></span>
+<span id="cb43-20"><a href="#cb43-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-21"><a href="#cb43-21" aria-hidden="true" tabindex="-1"></a>    Course course <span class="op">=</span> Course<span class="op">.</span><span class="fu">builder</span><span class="op">()</span></span>
+<span id="cb43-22"><a href="#cb43-22" aria-hidden="true" tabindex="-1"></a>        <span class="op">.</span><span class="fu">title</span><span class="op">(</span><span class="st">&quot;DSA&quot;</span><span class="op">)</span></span>
+<span id="cb43-23"><a href="#cb43-23" aria-hidden="true" tabindex="-1"></a>        <span class="op">.</span><span class="fu">credit</span><span class="op">(</span><span class="dv">7</span><span class="op">)</span></span>
+<span id="cb43-24"><a href="#cb43-24" aria-hidden="true" tabindex="-1"></a>        <span class="op">.</span><span class="fu">teacher</span><span class="op">(</span>teacher<span class="op">)</span></span>
+<span id="cb43-25"><a href="#cb43-25" aria-hidden="true" tabindex="-1"></a>        <span class="op">.</span><span class="fu">build</span><span class="op">();</span></span>
+<span id="cb43-26"><a href="#cb43-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-27"><a href="#cb43-27" aria-hidden="true" tabindex="-1"></a>    course<span class="op">.</span><span class="fu">addStudents</span><span class="op">(</span>student<span class="op">);</span></span>
+<span id="cb43-28"><a href="#cb43-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-29"><a href="#cb43-29" aria-hidden="true" tabindex="-1"></a>    courseRepository<span class="op">.</span><span class="fu">save</span><span class="op">(</span>course<span class="op">);</span></span>
+<span id="cb43-30"><a href="#cb43-30" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="https://maxcdn.bootstrapcdn.com/js/ie10-viewport-bug-workaround.js"></script>
+    <script>
+        //document.getElementById('sidebar').getElementsByTagName('ul')[0].className += "nav nav-sidebar";
+        
+        /* ajust the height when click the toc
+           the code is from https://github.com/twbs/bootstrap/issues/1768
+        */
+        var shiftWindow = function() { scrollBy(0, -50) };
+        window.addEventListener("hashchange", shiftWindow);
+        function load() { if (window.location.hash) shiftWindow(); }
+        
+        /*add Bootstrap styles to tables*/
+        var tables = document.getElementsByTagName("table");
+        for(var i = 0; i < tables.length; ++i){
+            tables[i].className += "table table-bordered table-hover";
+        }
+    </script>
+  </body>
+</html>
