@@ -25,4 +25,30 @@ public class CourseServiceImpl implements CourseService {
         Optional<Course> optional = courseRepository.findById(courseId);
         return optional.orElse(null);
     }
+
+    /**
+     * @param course
+     * @return
+     */
+    @Override
+    public Course addCourse(Course course) {
+        return courseRepository.save(course);
+    }
+
+    /**
+     * @param course
+     * @return
+     */
+    @Override
+    public Course updateCourse(Course course) {
+        return courseRepository.save(course);
+    }
+
+    /**
+     * @param courseId
+     */
+    @Override
+    public void deleteCourse(Long courseId) {
+        courseRepository.deleteById(courseId);
+    }
 }

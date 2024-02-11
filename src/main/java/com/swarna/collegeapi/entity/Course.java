@@ -31,14 +31,9 @@ public class Course {
 	private Long courseId;
 	private String title;
 	private Integer credit;
-	
-	//  creating bidirectional mapping, so that we can fetch courseMaterial from Course also.
-//	@OneToOne(mappedBy = "course") // course is coming from courseMaterial.course
-//	private CourseMaterial courseMaterial;
 
 	@OneToOne(
 			cascade = CascadeType.ALL,
-//			fetch = FetchType.LAZY,
 			optional = false
 	)
 	@JoinColumn( // foreign key

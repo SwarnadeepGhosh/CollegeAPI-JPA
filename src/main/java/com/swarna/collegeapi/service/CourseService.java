@@ -8,7 +8,13 @@ import java.util.List;
 @Service
 public interface CourseService {
 
-    public List<Course> findAllCourses();
+    List<Course> findAllCourses();
 
     Course findCourseById(Long courseId);
+
+    Course addCourse(Course course);
+
+    Course updateCourse(Course course);
+
+    void deleteCourse(Long courseId);
 }
