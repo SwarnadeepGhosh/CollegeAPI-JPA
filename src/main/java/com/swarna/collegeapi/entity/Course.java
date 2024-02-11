@@ -1,21 +1,10 @@
 package com.swarna.collegeapi.entity;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
+import javax.persistence.*;
 
+import com.swarna.collegeapi.utility.Constants;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -26,27 +15,36 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Table(
-		name="tbl_course"
-) 
+@Table(name="course", schema = Constants.API_SCHEMA)
 public class Course {
 
 	@Id
 	@SequenceGenerator(
-			name = "course_sequence",
-			sequenceName = "course_sequence",
-			allocationSize = 1
+			name = "course_seq",
+			sequenceName = "course_seq",
+			allocationSize = 1, schema = Constants.API_SCHEMA
 	)
 	@GeneratedValue(
 			strategy = GenerationType.SEQUENCE,
-			generator = "course_sequence"
+			generator = "course_seq"
 	)
 	private Long courseId;
 	private String title;
 	private Integer credit;
 	
 	//  creating bidirectional mapping, so that we can fetch courseMaterial from Course also.
-	@OneToOne(mappedBy = "course") // course is coming from courseMaterial.course
+//	@OneToOne(mappedBy = "course") // course is coming from courseMaterial.course
+//	private CourseMaterial courseMaterial;
+
+	@OneToOne(
+			cascade = CascadeType.ALL,
+//			fetch = FetchType.LAZY,
+			optional = false
+	)
+	@JoinColumn( // foreign key
+			name = "course_material_id", // it will save with this name in course_material table.
+			referencedColumnName = "courseMaterialId" // courseId is coming from course.courseId
+	)
 	private CourseMaterial courseMaterial;
 	
 	@ManyToOne(cascade = CascadeType.ALL)
@@ -63,13 +61,13 @@ public class Course {
 			inverseJoinColumns = @JoinColumn( // for courses, what should be the students
 					name = "student_id",
 					referencedColumnName = "studentId"
-			)
+			), schema = Constants.API_SCHEMA
 	)
 	private List<Student> students;
 	
-	public void addStudents(Student student) {
-		if(students == null) students = new ArrayList<>();
-		
-		students.add(student);
-	}
+//	public void addStudents(Student student) {
+//		if(students == null) students = new ArrayList<>();
+//
+//		students.add(student);
+//	}
 }

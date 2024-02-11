@@ -32,7 +32,7 @@ In this project, I went through various important and powerful annotations and m
 
 #### Database ER Diagram
 
-![CollegeAPI-JPA-ER-Diagram](CollegeAPI-JPA-ER-Diagram1.png)
+![CollegeAPI-JPA-ER-Diagram](img/CollegeAPI-JPA-ER-Diagram1.png)
 
 
 

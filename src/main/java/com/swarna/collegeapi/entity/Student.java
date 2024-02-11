@@ -10,6 +10,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import com.swarna.collegeapi.utility.Constants;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,7 +23,7 @@ import lombok.NoArgsConstructor;
 @Builder //Used to test easily
 //Table name will be created with name tbl_student. This way we can rename tables and columns.
 @Table(
-		name="tbl_student",
+		name="student",schema = Constants.API_SCHEMA,
 		uniqueConstraints = @UniqueConstraint(name="emailid_unique" ,columnNames = "email_address")
 ) 
 public class Student {
@@ -30,13 +31,13 @@ public class Student {
 	//Now we want to generate Primary key studentId automatically by a Database Sequence. Lets create it.
 	@Id
 	@SequenceGenerator( //This will generate required generator
-			name = "student_sequence",
-			sequenceName = "",
-			allocationSize = 1
+			name = "student_seq",
+			sequenceName = "student_seq",
+			allocationSize = 1, schema = Constants.API_SCHEMA
 	)
-	@GeneratedValue( // This will assign Generated Value of student_sequence into studentId
+	@GeneratedValue( // This will assign Generated Value of student_seq into studentId
 			strategy = GenerationType.SEQUENCE,
-			generator = "student_sequence"
+			generator = "student_seq"
 	)
 	private long studentId;
 	

@@ -86,7 +86,9 @@ spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.PostgreSQLDialec
 
 #### Database ER Diagram
 
-![CollegeAPI-JPA-ER-Diagram](CollegeAPI-JPA-ER-Diagram1.png)
+![CollegeAPI-JPA-ER-Diagram](img/CollegeAPI-JPA-ER-Diagram1.png)
+
+<img src="img/CollegeAPI-JPA-ER-Diagram2.jpg" alt="ER Diagram 2" style="zoom: 77%;" />
 
 
 
@@ -449,8 +451,6 @@ public void updateStudentNameByEmailId() {
 ## Relationships in JPA
 
 ### @OneToOne
-
-![CollegeAPI-JPA-ER-Diagram](CollegeAPI-JPA-ER-Diagram1.png)
 
 - Course and CourseMaterial is One to One Relationship.
 - For one course, there will be one Course Material and vice versa.

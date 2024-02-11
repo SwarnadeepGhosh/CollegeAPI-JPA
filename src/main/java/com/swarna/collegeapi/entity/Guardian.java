@@ -14,18 +14,18 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor 
 @Builder
-@AttributeOverrides({  // This will take "name" column and insert in table with "guardain_name" column name
+@AttributeOverrides({  // This will take "name" column and insert in table with "guardian_name" column name
 	@AttributeOverride(
 			name = "name",
-			column = @Column(name = "guardain_name")
+			column = @Column(name = "guardian_name")
 	),
 	@AttributeOverride(
 			name = "email",
-			column = @Column(name = "guardain_email")
+			column = @Column(name = "guardian_email")
 	),
 	@AttributeOverride(
 			name = "mobile",
-			column = @Column(name = "guardain_mobile")
+			column = @Column(name = "guardian_mobile")
 	)
 })
 public class Guardian {
