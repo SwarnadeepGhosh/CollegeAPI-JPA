@@ -30,7 +30,8 @@ public class CourseMaterial {
     private String url;
 
     // courseMaterial cant exist without course and for one course, there will be one Course Material and vice versa.
-    //	@OneToOne(cascade = CascadeType.ALL, mappedBy = "courseMaterial")
-    //	private Course course;
+//        @JsonBackReference
+//    	@OneToOne(cascade = CascadeType.PERSIST, mappedBy = "courseMaterial")
+//    	private Course course;
 
 }

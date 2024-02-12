@@ -76,3 +76,25 @@ In this project, I went through various important and powerful annotations and m
 @Param // Named Param - :<parameter_name>, which needs to declared by @Param("parameter_name") tag for each parameters
 ```
 
+
+### New Course Save log with all entity save
+```log
+Hibernate: select teacher0_.teacher_id as teacher_1_4_, teacher0_.first_name as first_na2_4_, teacher0_.last_name as last_nam3_4_ from collegeapi.teacher teacher0_
+Hibernate: select coursemate0_.course_material_id as course_m1_1_0_, coursemate0_.url as url2_1_0_ from collegeapi.course_material coursemate0_ where coursemate0_.course_material_id=?
+2024-02-13 00:29:58.918  INFO 8988 --- [nio-8080-exec-2] c.s.c.service.impl.CourseServiceImpl     : courseMaterialEntity fetched = CourseMaterial(courseMaterialId=null, url=https://developer.demo.com/)
+Hibernate: select teacher0_.teacher_id as teacher_1_4_0_, teacher0_.first_name as first_na2_4_0_, teacher0_.last_name as last_nam3_4_0_ from collegeapi.teacher teacher0_ where teacher0_.teacher_id=?
+2024-02-13 00:29:59.000  INFO 8988 --- [nio-8080-exec-2] c.s.c.service.impl.CourseServiceImpl     : teacherEntity fetched = Teacher(teacherId=null, firstName=Swarnadeep, lastName=2)
+Hibernate: select student0_.student_id as student_1_2_0_, student0_.email_address as email_ad2_2_0_, student0_.first_name as first_na3_2_0_, student0_.guardian_email as guardian4_2_0_, student0_.guardian_mobile as guardian5_2_0_, student0_.guardian_name as guardian6_2_0_, student0_.last_name as last_nam7_2_0_ from collegeapi.student student0_ where student0_.student_id=?
+2024-02-13 00:29:59.086  INFO 8988 --- [nio-8080-exec-2] c.s.c.service.impl.CourseServiceImpl     : Student not found in DB
+2024-02-13 00:29:59.086  INFO 8988 --- [nio-8080-exec-2] c.s.c.service.impl.CourseServiceImpl     : students fetched = [Student(studentId=0, firstName=Swarnadeep , lastName=Ghosh, emailId=swarnadeep@demo.com, guardain=Guardian(name=Demo Demo, email=test@test.com, mobile=9012345628))]
+2024-02-13 00:29:59.086  INFO 8988 --- [nio-8080-exec-2] c.s.c.service.impl.CourseServiceImpl     : Going to save CourseEntity= Course(courseId=null, title=Django, credit=87, courseMaterial=CourseMaterial(courseMaterialId=null, url=https://developer.demo.com/), teacher=Teacher(teacherId=null, firstName=Swarnadeep, lastName=2), students=[Student(studentId=0, firstName=Swarnadeep , lastName=Ghosh, emailId=swarnadeep@demo.com, guardain=Guardian(name=Demo Demo, email=test@test.com, mobile=9012345628))])
+Hibernate: select nextval ('collegeapi.course_seq')
+Hibernate: select nextval ('collegeapi.course_material_seq')
+Hibernate: select nextval ('collegeapi.teacher_seq')
+Hibernate: select nextval ('collegeapi.student_seq')
+Hibernate: insert into collegeapi.course_material (url, course_material_id) values (?, ?)
+Hibernate: insert into collegeapi.teacher (first_name, last_name, teacher_id) values (?, ?, ?)
+Hibernate: insert into collegeapi.course (course_material_id, credit, teacher_id, title, course_id) values (?, ?, ?, ?, ?)
+Hibernate: insert into collegeapi.student (email_address, first_name, guardian_email, guardian_mobile, guardian_name, last_name, student_id) values (?, ?, ?, ?, ?, ?, ?)
+Hibernate: insert into collegeapi.student_course_map (course_id, student_id) values (?, ?)
+```

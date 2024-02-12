@@ -34,3 +34,19 @@ INSERT INTO collegeapi.student_course_map (course_id, student_id, rowid) VALUES(
 --INSERT INTO ROLE VALUES (role_seq.nextval, 'CONSUMER');
 --INSERT INTO USER VALUES (user_seq.nextval, 'pass_word', 'jack');
 --SELECT nextval('collegeapi.teacher_seq');
+
+--ALTER TABLE collegeapi.course
+--DROP CONSTRAINT uk_9q0dlpe98xo2elipx2h20qwo;
+--
+--CREATE TABLE collegeapi.course (
+--	course_id int8 NOT NULL,
+--	credit int4 NULL,
+--	title varchar(255) NULL,
+--	course_material_id int8 NULL,
+--	teacher_id int8 NULL,
+--	CONSTRAINT course_pkey PRIMARY KEY (course_id ASC),
+--	CONSTRAINT uk_9q0dlpe98xo2elipx2h20qwo UNIQUE (course_material_id ASC)
+--);
+
+--ALTER TABLE collegeapi.course
+--DROP INDEX uk_9q0dlpe98xo2elipx2h20qwo on collegeapi.course(course_material_id) CASCADE;
