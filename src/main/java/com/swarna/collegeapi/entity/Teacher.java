@@ -1,20 +1,19 @@
 package com.swarna.collegeapi.entity;
 
-import java.util.List;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.swarna.collegeapi.utility.Constants;
+import lombok.*;
 
 import javax.persistence.*;
-
-import com.swarna.collegeapi.utility.Constants;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import java.util.List;
 
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Table(name = "teacher", schema = Constants.API_SCHEMA)
 public class Teacher {
 
@@ -31,8 +30,16 @@ public class Teacher {
     private Long teacherId;
     private String firstName;
     private String lastName;
-	
-	/*@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name = "teacher_id", referencedColumnName = "teacherId")
-	private List<Course> courses;*/
+
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "teacher_id", referencedColumnName = "teacherId")
+    @JsonIgnore
+    @ToString.Exclude
+    private List<Course> courses;
+
+    public Teacher(Teacher t) {
+        this.teacherId = null;
+        this.firstName = t.getFirstName();
+        this.lastName = t.getLastName();
+    }
 }

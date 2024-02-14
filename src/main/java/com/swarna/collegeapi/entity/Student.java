@@ -1,12 +1,12 @@
 package com.swarna.collegeapi.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.swarna.collegeapi.utility.Constants;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Data // Lombok will generate Getter and Setters with this annotation
@@ -15,9 +15,10 @@ import javax.persistence.*;
 @Builder //Used to test easily
 //Table name will be created with name tbl_student. This way we can rename tables and columns.
 @Table(
-        name = "student", schema = Constants.API_SCHEMA,
+        name = "tbl_student", schema = Constants.API_SCHEMA,
         uniqueConstraints = @UniqueConstraint(name = "emailid_unique", columnNames = "email_address")
 )
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Student {
 
     //Now we want to generate Primary key studentId automatically by a Database Sequence. Lets create it.
@@ -47,6 +48,11 @@ public class Student {
 //	private String guardianName;
 //	private String guardianEmail;
 //	private String guardianMobile;
+
+    @ManyToMany(mappedBy = "students", fetch = FetchType.LAZY) // This is the same attribute name used in User Class.
+    @JsonIgnore
+    @ToString.Exclude
+    private List<Course> courses;
 
     public Student(Student student) {
         this.firstName = student.getFirstName();

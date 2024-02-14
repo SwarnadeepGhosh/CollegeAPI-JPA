@@ -54,15 +54,24 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public Course addCourse(Course course) {
-        CourseMaterial courseMaterialEntity = courseMaterialRepository
-                .findById(course.getCourseMaterial().getCourseMaterialId())
-                .orElse(new CourseMaterial(null, course.getCourseMaterial().getUrl()));
+        Teacher teacherEntity;
+        CourseMaterial courseMaterialEntity;
+        if (Objects.isNull(course.getCourseMaterial().getCourseMaterialId())) {
+            courseMaterialEntity = new CourseMaterial(course.getCourseMaterial());
+        } else {
+            courseMaterialEntity = courseMaterialRepository
+                    .findById(course.getCourseMaterial().getCourseMaterialId())
+                    .orElse(new CourseMaterial(course.getCourseMaterial()));
+        }
         log.info("courseMaterialEntity fetched = {}", courseMaterialEntity);
 
-        Teacher teacherEntity = teacherRepository
-                .findById(course.getTeacher().getTeacherId())
-                .orElse(new Teacher(null, course.getTeacher().getFirstName(),
-                        course.getTeacher().getLastName()));
+        if (Objects.isNull(course.getTeacher().getTeacherId())) {
+            teacherEntity = new Teacher(course.getTeacher());
+        } else {
+            teacherEntity = teacherRepository
+                    .findById(course.getTeacher().getTeacherId())
+                    .orElse(new Teacher(course.getTeacher()));
+        }
         log.info("teacherEntity fetched = {}", teacherEntity);
 
         List<Student> students = new ArrayList<>();
