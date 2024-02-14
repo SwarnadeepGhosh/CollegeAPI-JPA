@@ -31,11 +31,13 @@ public class CourseMaterial {
     private Long courseMaterialId;
     private String url;
 
-    // courseMaterial cant exist without course and for one course, there will be one Course Material and vice versa.
-//        @JsonBackReference
-//    	@OneToOne(cascade = CascadeType.PERSIST, mappedBy = "courseMaterial")
-//        @JsonIgnore
-//    	private Course course;
+    /* courseMaterial cant exist without course and for one course, there will be one Course Material and vice versa.
+    @OneToOne(
+            cascade = CascadeType.PERSIST,
+            mappedBy = "courseMaterial",
+            fetch = FetchType.LAZY
+    )
+    private Course course; */
 
     public CourseMaterial(CourseMaterial courseMaterial) {
         this.courseMaterialId = null;
