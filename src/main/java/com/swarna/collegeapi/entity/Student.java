@@ -32,7 +32,7 @@ public class Student {
             strategy = GenerationType.SEQUENCE,
             generator = "student_seq"
     )
-    private long studentId;
+    private Long studentId;
 
     private String firstName;
     private String lastName;
@@ -55,6 +55,7 @@ public class Student {
     private List<Course> courses;
 
     public Student(Student student) {
+        this.studentId = null;
         this.firstName = student.getFirstName();
         this.lastName = student.getLastName();
         this.emailId = student.getEmailId();

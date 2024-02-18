@@ -10,13 +10,13 @@ INSERT INTO collegeapi.course_material (course_material_id, url) VALUES(nextval(
 INSERT INTO collegeapi.course_material (course_material_id, url) VALUES(nextval('collegeapi.course_material_seq'), 'https://spring.io/blog/2015/07/14/microservices-with-spring/');
 
 
-INSERT INTO collegeapi.STUDENT (student_id, email_address, first_name, last_name, guardian_name, guardian_email, guardian_mobile)
+INSERT INTO collegeapi.TBL_STUDENT (student_id, email_address, first_name, last_name, guardian_name, guardian_email, guardian_mobile)
 VALUES(nextval('collegeapi.student_seq'), 'sujit1@test.com', 'Sujit 2', 'Paul', 'Saikat 2 Paul', 'saikat2@test.com', '9012345678');
 
-INSERT INTO collegeapi.STUDENT (student_id, email_address, first_name, last_name, guardian_name, guardian_email, guardian_mobile)
+INSERT INTO collegeapi.TBL_STUDENT (student_id, email_address, first_name, last_name, guardian_name, guardian_email, guardian_mobile)
 VALUES(nextval('collegeapi.student_seq'), 'atul1@test.com', 'Atul 2', 'Manna', 'Adharsh 2 Manna', 'adharsh2@test.com', '9012345677');
 
-INSERT INTO collegeapi.STUDENT (student_id, email_address, first_name, last_name, guardian_name, guardian_email, guardian_mobile)
+INSERT INTO collegeapi.TBL_STUDENT (student_id, email_address, first_name, last_name, guardian_name, guardian_email, guardian_mobile)
 VALUES(nextval('collegeapi.student_seq'), 'amit1@test.com', 'Amit 2', 'Kinagi', 'Vaibhav 2 Kinagi', 'vaibhav2@test.com', '9012345678');
 
 INSERT INTO collegeapi.course (course_id, credit, title, course_material_id, teacher_id) VALUES(nextval('collegeapi.course_seq'), 80, 'JAVA', 1, 1);

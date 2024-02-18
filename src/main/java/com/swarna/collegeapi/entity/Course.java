@@ -33,18 +33,18 @@ public class Course {
     private String title;
     private Integer credit;
 
-    @OneToOne(cascade = CascadeType.PERSIST)
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn( // foreign key
             name = "course_material_id", // it will save with this name in course_material table.
             referencedColumnName = "courseMaterialId"
     )
     private CourseMaterial courseMaterial;
 
-    @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "teacher_id", referencedColumnName = "teacherId")
     private Teacher teacher;
 
-    @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable(
             name = "student_course_map",
             joinColumns = @JoinColumn( // for students, what courses they have

@@ -12,6 +12,7 @@ import com.swarna.collegeapi.service.CourseService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,6 +54,7 @@ public class CourseServiceImpl implements CourseService {
 //    }
 
     @Override
+    @Transactional
     public Course addCourse(Course course) {
         Teacher teacherEntity;
         CourseMaterial courseMaterialEntity;
@@ -76,12 +78,14 @@ public class CourseServiceImpl implements CourseService {
 
         List<Student> students = new ArrayList<>();
         course.getStudents().forEach(i -> {
-            Optional<Student> optionalStudent = studentRepository.findById(i.getStudentId());
-            if (optionalStudent.isPresent()) {
-                students.add(optionalStudent.get());
-            } else {
+            if(Objects.isNull(i.getStudentId())){
                 students.add(new Student(i));
-                log.info("Student not found in DB");
+                log.info("StudentId is null or Student not found in DB");
+            } else{
+                Student studentEntity = studentRepository
+                        .findById(i.getStudentId())
+                        .orElse(new Student(i));
+                students.add(studentEntity);
             }
         });
         log.info("students fetched = {}", students);
